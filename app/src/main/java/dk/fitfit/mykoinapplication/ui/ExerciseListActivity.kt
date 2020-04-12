@@ -25,11 +25,11 @@ class ExerciseListActivity : AppCompatActivity() {
 
         sync()
 
-        recycler_view.layoutManager = LinearLayoutManager(this)
-        recycler_view.setHasFixedSize(true)
+        exerciseRecyclerView.layoutManager = LinearLayoutManager(this)
+        exerciseRecyclerView.setHasFixedSize(true)
 
         val adapter = ExerciseAdapter()
-        recycler_view.adapter = adapter
+        exerciseRecyclerView.adapter = adapter
 
         exerciseViewModel.findAll().observe(this, Observer {
             adapter.exercises = it

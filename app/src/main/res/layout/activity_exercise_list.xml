@@ -6,7 +6,7 @@
     tools:context=".ui.ExerciseListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/exerciseRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/exercise_item" />

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.domain.Exercise
+import kotlinx.android.synthetic.main.exercise_item.view.*
 
 class ExerciseAdapter : RecyclerView.Adapter<ExerciseAdapter.ExerciseHolder>() {
     var exercises: List<Exercise> = arrayListOf()
@@ -22,14 +23,14 @@ class ExerciseAdapter : RecyclerView.Adapter<ExerciseAdapter.ExerciseHolder>() {
 
     override fun onBindViewHolder(holder: ExerciseHolder, position: Int) {
         val exercise = exercises[position]
-        holder.textViewName.text = "${exercise.id}:${exercise.name}"
-        holder.textViewDescription.text = exercise.description
+        holder.exerciseName.text = "${exercise.id}:${exercise.name}"
+        holder.exerciseDescription.text = exercise.description
     }
 
     override fun getItemCount(): Int = exercises.size
 
     class ExerciseHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewName: TextView = itemView.findViewById(R.id.text_view_name)
-        val textViewDescription: TextView = itemView.findViewById(R.id.text_view_description)
+        val exerciseName: TextView = itemView.exerciseName
+        val exerciseDescription: TextView = itemView.exerciseDescription
     }
 }
