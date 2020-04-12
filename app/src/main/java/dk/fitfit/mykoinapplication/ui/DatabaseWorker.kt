@@ -1,15 +1,9 @@
 package dk.fitfit.mykoinapplication.ui
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import android.util.Log
-import androidx.core.app.NotificationCompat
-import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.domain.Exercise
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository
 import org.koin.core.KoinComponent
@@ -20,21 +14,9 @@ import org.threeten.bp.ZoneOffset
 // Inspiration: https://androidwave.com/android-workmanager-tutorial/
 
 class DatabaseWorker(context: Context, workerParameters: WorkerParameters) : Worker(context, workerParameters), KoinComponent {
-
     override fun doWork(): Result {
         val exerciseRepository: ExerciseRepository by inject()
-        val data = "data from server"
 
-        sync(exerciseRepository)
-
-        val outputData: Data = Data.Builder().putString("WORK_RESULT", "Jobs Finished").build()
-
-//        showNotification("title", "desc")
-
-        return Result.success(outputData)
-    }
-
-    private fun sync(exerciseRepository: ExerciseRepository) {
         exerciseRepository.deleteAll()
 
         val squat = Exercise("Squat", "Hit those legs", epochMilli(), 0)
@@ -61,26 +43,9 @@ class DatabaseWorker(context: Context, workerParameters: WorkerParameters) : Wor
 
         val message = "Last update: ${exerciseRepository.getLastUpdate()}"
         Log.d("DAO", message)
+
+        return Result.success()
     }
 
     private fun epochMilli() = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-
-    private fun showNotification(task: String, desc: String) {
-        val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val channelId = "task_channel"
-        val channelName = "task_name"
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
-            manager.createNotificationChannel(channel)
-        }
-
-        val notification = NotificationCompat.Builder(applicationContext, channelId)
-            .setContentTitle(task)
-            .setContentText(desc)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .build()
-        manager.notify(1, notification)
-    }
-
 }
