@@ -4,18 +4,22 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 
 @Entity
 class Exercise(
     val name: String,
     val description: String,
-    @PrimaryKey(autoGenerate = true) val id: Long = 0
+    @PrimaryKey(autoGenerate = false) val id: Long = 0
 )
 
 @Dao
 interface ExerciseDao {
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun insert(exercise: Exercise)
+
+    @Insert(onConflict = REPLACE)
+    fun insert(exercises: List<Exercise>)
 
     @Update
     fun update(exercise: Exercise)
@@ -23,7 +27,7 @@ interface ExerciseDao {
     @Delete
     fun delete(exercise: Exercise)
 
-    @Query("select * from exercise")
+    @Query("select * from exercise order by id")
     fun findAll(): LiveData<List<Exercise>>
 }
 
@@ -57,6 +61,7 @@ abstract class FitLogDatabase : RoomDatabase() {
 
 interface ExerciseRepository {
     fun insert(exercise: Exercise)
+    fun insert(exercises: List<Exercise>)
     fun update(exercise: Exercise)
     fun delete(exercise: Exercise)
     fun findAll(): LiveData<List<Exercise>>
@@ -74,6 +79,10 @@ class ExerciseRepositoryImpl(application: Application) : ExerciseRepository {
 
     override fun insert(exercise: Exercise) {
         exerciseDao.insert(exercise)
+    }
+
+    override fun insert(exercises: List<Exercise>) {
+        exerciseDao.insert(exercises)
     }
 
     override fun update(exercise: Exercise) {
