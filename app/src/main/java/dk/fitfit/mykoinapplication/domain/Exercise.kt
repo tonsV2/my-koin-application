@@ -2,14 +2,16 @@ package dk.fitfit.mykoinapplication.domain
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 
 @Entity
-class Exercise(
+data class Exercise(
     val name: String,
     val description: String,
+    val updated: Long,
     @PrimaryKey(autoGenerate = false) val id: Long = 0
 )
 
@@ -27,8 +29,14 @@ interface ExerciseDao {
     @Delete
     fun delete(exercise: Exercise)
 
-    @Query("select * from exercise order by id")
+    @Query("DELETE FROM exercise")
+    fun deleteAll()
+
+    @Query("select * from exercise order by updated desc")
     fun findAll(): LiveData<List<Exercise>>
+
+    @Query("select max(updated) from exercise")
+    fun getLastUpdate(): Long
 }
 
 @Database(entities = [Exercise::class], version = 1)
@@ -64,7 +72,9 @@ interface ExerciseRepository {
     fun insert(exercises: List<Exercise>)
     fun update(exercise: Exercise)
     fun delete(exercise: Exercise)
+    fun deleteAll()
     fun findAll(): LiveData<List<Exercise>>
+    fun getLastUpdate(): Long
 }
 
 class ExerciseRepositoryImpl(application: Application) : ExerciseRepository {
@@ -78,10 +88,14 @@ class ExerciseRepositoryImpl(application: Application) : ExerciseRepository {
     }
 
     override fun insert(exercise: Exercise) {
+        Log.d("DAO", exercise.toString())
         exerciseDao.insert(exercise)
     }
 
     override fun insert(exercises: List<Exercise>) {
+        exercises.forEach {
+            Log.d("DAO", it.toString())
+        }
         exerciseDao.insert(exercises)
     }
 
@@ -93,5 +107,11 @@ class ExerciseRepositoryImpl(application: Application) : ExerciseRepository {
         exerciseDao.delete(exercise)
     }
 
+    override fun deleteAll() {
+        exerciseDao.deleteAll()
+    }
+
     override fun findAll(): LiveData<List<Exercise>> = exerciseDao.findAll()
+
+    override fun getLastUpdate(): Long = exerciseDao.getLastUpdate()
 }
