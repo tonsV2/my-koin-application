@@ -29,7 +29,7 @@ interface ExerciseDao {
     @Delete
     fun delete(exercise: Exercise)
 
-    @Query("DELETE FROM exercise")
+    @Query("delete from exercise")
     fun deleteAll()
 
     @Query("select * from exercise order by updated desc")
