@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository
@@ -23,7 +21,7 @@ class ExerciseListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_exercise_list)
         AndroidThreeTen.init(this)
 
-        launchWorker()
+        ExerciseSynchronizer().synchronize()
 
         exerciseRecyclerView.layoutManager = LinearLayoutManager(this)
         exerciseRecyclerView.setHasFixedSize(true)
@@ -34,11 +32,5 @@ class ExerciseListActivity : AppCompatActivity() {
         exerciseViewModel.findAll().observe(this, Observer {
             adapter.exercises = it
         })
-    }
-
-    private fun launchWorker() {
-        val workManager = WorkManager.getInstance(this)
-        val worker = OneTimeWorkRequestBuilder<DatabaseWorker>().build()
-        workManager.enqueue(worker)
     }
 }
