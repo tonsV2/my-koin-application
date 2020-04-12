@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.Data
 import androidx.work.Worker
@@ -57,6 +58,9 @@ class DatabaseWorker(context: Context, workerParameters: WorkerParameters) : Wor
         val benchPress = Exercise("Bench press", "Push up on the back", epochMilli(), 6)
         val pullUp = Exercise("Pull up", "Upper back", epochMilli(), 7)
         exerciseRepository.insert(listOf(benchPress, pullUp))
+
+        val message = "Last update: ${exerciseRepository.getLastUpdate()}"
+        Log.d("DAO", message)
     }
 
     private fun epochMilli() = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()

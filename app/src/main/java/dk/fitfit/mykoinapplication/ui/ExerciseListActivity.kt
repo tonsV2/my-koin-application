@@ -1,7 +1,6 @@
 package dk.fitfit.mykoinapplication.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,10 +11,6 @@ import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository
 import dk.fitfit.mykoinapplication.view.ExerciseViewModel
 import kotlinx.android.synthetic.main.activity_exercise_list.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -39,12 +34,6 @@ class ExerciseListActivity : AppCompatActivity() {
         exerciseViewModel.findAll().observe(this, Observer {
             adapter.exercises = it
         })
-
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(6000)
-            val message = "Last update: ${exerciseRepository.getLastUpdate()}"
-            Log.d("DAO", message)
-        }
     }
 
     private fun launchWorker() {
