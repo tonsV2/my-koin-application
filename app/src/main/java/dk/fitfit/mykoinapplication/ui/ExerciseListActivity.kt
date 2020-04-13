@@ -14,7 +14,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class ExerciseListActivity : AppCompatActivity() {
     private val exerciseViewModel: ExerciseViewModel by viewModel()
-    private val exerciseRepository: ExerciseRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

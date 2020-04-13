@@ -7,8 +7,6 @@ import dk.fitfit.mykoinapplication.domain.Exercise
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository
 
 class ExerciseViewModel(application: Application, private val repository: ExerciseRepository) : AndroidViewModel(application) {
-    private val exercises: LiveData<List<Exercise>> = repository.findAll()
-
     fun insert(exercise: Exercise) {
         repository.insert(exercise)
     }
