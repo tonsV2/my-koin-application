@@ -15,4 +15,8 @@ class MainApplication : Application() {
             modules(appModule)
         }
     }
+
+    companion object {
+        const val TOKEN_STORE = "token-store"
+    }
 }

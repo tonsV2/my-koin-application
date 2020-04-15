@@ -1,4 +1,4 @@
-package dk.fitfit.mykoinapplication.ui
+package dk.fitfit.mykoinapplication.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +18,9 @@ class ExerciseAdapter : RecyclerView.Adapter<ExerciseAdapter.ExerciseHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.exercise_item, parent, false)
-        return ExerciseHolder(itemView)
+        return ExerciseHolder(
+            itemView
+        )
     }
 
     override fun onBindViewHolder(holder: ExerciseHolder, position: Int) {

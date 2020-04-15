@@ -6,10 +6,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dk.fitfit.mykoinapplication.R
-import dk.fitfit.mykoinapplication.domain.ExerciseRepository
+import dk.fitfit.mykoinapplication.ui.adapter.ExerciseAdapter
 import dk.fitfit.mykoinapplication.view.ExerciseViewModel
 import kotlinx.android.synthetic.main.activity_exercise_list.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ExerciseListActivity : AppCompatActivity() {
@@ -20,7 +19,7 @@ class ExerciseListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_exercise_list)
         AndroidThreeTen.init(this)
 
-        ExerciseSynchronizer().synchronize()
+        ExerciseSynchronizer(this).synchronize()
 
         exerciseRecyclerView.layoutManager = LinearLayoutManager(this)
         exerciseRecyclerView.setHasFixedSize(true)
