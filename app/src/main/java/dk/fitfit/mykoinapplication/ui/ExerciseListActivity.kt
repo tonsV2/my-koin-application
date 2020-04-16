@@ -28,7 +28,7 @@ class ExerciseListActivity : AppCompatActivity() {
         exerciseRecyclerView.adapter = adapter
 
         exerciseViewModel.findAll().observe(this, Observer {
-            adapter.exercises = it
+            adapter.submitList(it)
         })
     }
 }
