@@ -8,11 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.domain.Exercise
+import dk.fitfit.mykoinapplication.ui.ExerciseListFragment.Companion.EXTRA_DESCRIPTION
+import dk.fitfit.mykoinapplication.ui.ExerciseListFragment.Companion.EXTRA_ID
+import dk.fitfit.mykoinapplication.ui.ExerciseListFragment.Companion.EXTRA_NAME
 import dk.fitfit.mykoinapplication.ui.extension.toast
 import dk.fitfit.mykoinapplication.view.ExerciseViewModel
 import kotlinx.android.synthetic.main.fragment_addeddit_exercise.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class AddEditExerciseFragment : Fragment() {

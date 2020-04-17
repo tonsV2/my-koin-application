@@ -18,10 +18,6 @@ import kotlinx.android.synthetic.main.fragment_exercise_list.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-const val EXTRA_ID = "exercise-id"
-const val EXTRA_NAME = "exercise-name"
-const val EXTRA_DESCRIPTION = "exercise-description"
-
 class ExerciseListFragment : Fragment() {
     private val exerciseViewModel: ExerciseViewModel by viewModel()
     private val exerciseSynchronizer: ExerciseSynchronizer by inject()
@@ -57,5 +53,11 @@ class ExerciseListFragment : Fragment() {
         exerciseViewModel.findAll().observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
+    }
+
+    companion object {
+        const val EXTRA_ID = "exercise-id"
+        const val EXTRA_NAME = "exercise-name"
+        const val EXTRA_DESCRIPTION = "exercise-description"
     }
 }
