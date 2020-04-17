@@ -6,8 +6,8 @@ import dk.fitfit.mykoinapplication.domain.ExerciseRepositoryImpl
 import dk.fitfit.mykoinapplication.repository.HelloRepository
 import dk.fitfit.mykoinapplication.repository.HelloRepositoryImpl
 import dk.fitfit.mykoinapplication.rest.*
-import dk.fitfit.mykoinapplication.ui.ExerciseService
-import dk.fitfit.mykoinapplication.ui.ExerciseSynchronizer
+import dk.fitfit.mykoinapplication.synchronize.ExerciseService
+import dk.fitfit.mykoinapplication.synchronize.ExerciseSynchronizer
 import dk.fitfit.mykoinapplication.view.ExerciseViewModel
 import dk.fitfit.mykoinapplication.view.MyViewModel
 import okhttp3.OkHttpClient

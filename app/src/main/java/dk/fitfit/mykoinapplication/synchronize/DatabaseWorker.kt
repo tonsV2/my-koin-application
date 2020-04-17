@@ -1,4 +1,4 @@
-package dk.fitfit.mykoinapplication.ui
+package dk.fitfit.mykoinapplication.synchronize
 
 import android.content.Context
 import android.util.Log
