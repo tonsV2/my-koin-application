@@ -10,8 +10,11 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
     <string name="go_to_exercises">Go to Exercises</string>
     <string name="add_exercise_fragment_label">Add Exercise</string>
+
+    <string name="server_client_id">478137234674-754tovm8mavjbd649e6amt2d7d42tgo8.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

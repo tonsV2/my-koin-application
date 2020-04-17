@@ -31,7 +31,7 @@ val appModule = module {
 
 @JvmField
 val syncModule = module {
-    single { ExerciseSynchronizer(get(), get(), get(), get()) }
+    single { ExerciseSynchronizer(get(), get()) }
 }
 
 @JvmField
