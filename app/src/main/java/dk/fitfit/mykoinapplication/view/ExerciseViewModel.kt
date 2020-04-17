@@ -2,13 +2,15 @@ package dk.fitfit.mykoinapplication.view
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import dk.fitfit.mykoinapplication.domain.Exercise
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository
+import dk.fitfit.mykoinapplication.domain.dto.ExerciseRequest
+import dk.fitfit.mykoinapplication.synchronize.ExerciseService
 
-class ExerciseViewModel(application: Application, private val repository: ExerciseRepository) : AndroidViewModel(application) {
-    fun insert(exercise: Exercise) {
-        repository.insert(exercise)
+class ExerciseViewModel(application: Application, private val repository: ExerciseRepository, private val exerciseService: ExerciseService) : AndroidViewModel(application) {
+    suspend fun insert(exercise: Exercise) {
+//        repository.insert(exercise)
+        exerciseService.save(ExerciseRequest(exercise.name, exercise.description))
     }
 
     fun update(exercise: Exercise) {

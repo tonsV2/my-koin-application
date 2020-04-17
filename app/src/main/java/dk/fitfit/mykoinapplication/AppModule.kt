@@ -5,7 +5,10 @@ import dk.fitfit.mykoinapplication.domain.ExerciseRepository
 import dk.fitfit.mykoinapplication.domain.ExerciseRepositoryImpl
 import dk.fitfit.mykoinapplication.repository.HelloRepository
 import dk.fitfit.mykoinapplication.repository.HelloRepositoryImpl
-import dk.fitfit.mykoinapplication.rest.*
+import dk.fitfit.mykoinapplication.rest.AccessTokenAuthenticator
+import dk.fitfit.mykoinapplication.rest.AccessTokenInterceptor
+import dk.fitfit.mykoinapplication.rest.AccessTokenProvider
+import dk.fitfit.mykoinapplication.rest.AccessTokenProviderDefault
 import dk.fitfit.mykoinapplication.synchronize.ExerciseService
 import dk.fitfit.mykoinapplication.synchronize.ExerciseSynchronizer
 import dk.fitfit.mykoinapplication.view.ExerciseViewModel
@@ -22,7 +25,7 @@ val appModule = module {
     single<HelloRepository> { HelloRepositoryImpl() }
     single<ExerciseRepository> { ExerciseRepositoryImpl(get()) }
     viewModel { MyViewModel(get()) }
-    viewModel { ExerciseViewModel(get(), get()) }
+    viewModel { ExerciseViewModel(get(), get(), get()) }
 }
 
 @JvmField

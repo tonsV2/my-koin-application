@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.synchronize.ExerciseSynchronizer
@@ -23,14 +25,19 @@ class ExerciseListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_exercise_list, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = "Exercises"
+
+        fab.setOnClickListener {
+            findNavController().navigate(R.id.action_ExerciseListFragment_to_AddExerciseFragment)
+        }
 
         exerciseSynchronizer.synchronize()
 
         exerciseRecyclerView.layoutManager = LinearLayoutManager(context)
         exerciseRecyclerView.setHasFixedSize(true)
-
 
         val adapter = ExerciseAdapter {
             context?.toast(it.name)

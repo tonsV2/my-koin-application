@@ -26,6 +26,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        findNavController().navigate(R.id.action_FirstFragment_to_ExerciseListFragment)
+
 //        textviewFirst.text = myViewModel.sayHello()
 
         // Create the observer which updates the UI.

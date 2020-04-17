@@ -29,14 +29,21 @@
             app:destination="@id/FirstFragment" />
     </fragment>
     <fragment
+        android:id="@+id/AddExerciseFragment"
+        android:name="dk.fitfit.mykoinapplication.ui.AddExerciseFragment"
+        android:label="@string/add_exercise_fragment_label"
+        tools:layout="@layout/fragment_add_exercise">
+        <action
+            android:id="@+id/action_AddExerciseFragment_to_ExerciseListFragment"
+            app:destination="@id/ExerciseListFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/ExerciseListFragment"
         android:name="dk.fitfit.mykoinapplication.ui.ExerciseListFragment"
         android:label="@string/exercise_list_fragment_label"
         tools:layout="@layout/fragment_exercise_list">
-<!-- TODO: Go to exercise details fragment
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
--->
+            android:id="@+id/action_ExerciseListFragment_to_AddExerciseFragment"
+            app:destination="@id/AddExerciseFragment" />
     </fragment>
 </navigation>

@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 import dk.fitfit.mykoinapplication.MainApplication.Companion.TOKEN_STORE
 import dk.fitfit.mykoinapplication.domain.Exercise
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository
+import dk.fitfit.mykoinapplication.domain.dto.ExerciseRequest
 import dk.fitfit.mykoinapplication.domain.dto.ExerciseResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -13,10 +14,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import retrofit2.HttpException
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 abstract class DataSynchronizer {
     abstract suspend fun doWork()
@@ -76,4 +74,10 @@ interface ExerciseService {
 
     @GET("/exercises")
     suspend fun getExercises(@Query("updatedTimestamp") updatedTimestamp: Long? = null): List<ExerciseResponse>
+
+    @POST("/exercises")
+    suspend fun save(@Body exercise: ExerciseRequest): ExerciseResponse
+
+    @PUT("/exercises/{id}")
+    suspend fun update(@Path("id") id: Long, @Body exerciseRequest: ExerciseRequest)
 }
