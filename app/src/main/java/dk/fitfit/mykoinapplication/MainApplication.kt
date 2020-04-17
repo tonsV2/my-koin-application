@@ -10,6 +10,8 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        AndroidThreeTen.init(this)
+
         startKoin {
             androidContext(this@MainApplication)
             androidLogger()
