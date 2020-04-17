@@ -43,7 +43,7 @@ class AddEditExerciseFragment : Fragment() {
             val name = editTextName.text.toString()
             val description = editTextDescription.text.toString()
 
-            if (name.trim().isEmpty() && description.trim().isEmpty()) {
+            if (name.trim().isEmpty() || description.trim().isEmpty()) {
                 activity?.toast("Please enter both name and description")
                 return@setOnClickListener
             }
