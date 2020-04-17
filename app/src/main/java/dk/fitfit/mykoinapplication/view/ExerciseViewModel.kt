@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import dk.fitfit.mykoinapplication.domain.Exercise
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository
 import dk.fitfit.mykoinapplication.domain.dto.ExerciseRequest
-import dk.fitfit.mykoinapplication.synchronize.ExerciseService
+import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 
 class ExerciseViewModel(application: Application, private val repository: ExerciseRepository, private val exerciseService: ExerciseService) : AndroidViewModel(application) {
     suspend fun upsert(exercise: Exercise) {

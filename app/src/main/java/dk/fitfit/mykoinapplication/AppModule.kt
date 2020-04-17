@@ -9,7 +9,8 @@ import dk.fitfit.mykoinapplication.rest.AccessTokenAuthenticator
 import dk.fitfit.mykoinapplication.rest.AccessTokenInterceptor
 import dk.fitfit.mykoinapplication.rest.AccessTokenProvider
 import dk.fitfit.mykoinapplication.rest.AccessTokenProviderDefault
-import dk.fitfit.mykoinapplication.synchronize.ExerciseService
+import dk.fitfit.mykoinapplication.rest.service.ExerciseService
+import dk.fitfit.mykoinapplication.rest.service.LoginService
 import dk.fitfit.mykoinapplication.synchronize.ExerciseSynchronizer
 import dk.fitfit.mykoinapplication.view.ExerciseViewModel
 import dk.fitfit.mykoinapplication.view.MyViewModel
@@ -30,7 +31,7 @@ val appModule = module {
 
 @JvmField
 val syncModule = module {
-    single { ExerciseSynchronizer(get(), get(), get()) }
+    single { ExerciseSynchronizer(get(), get(), get(), get()) }
 }
 
 @JvmField
@@ -41,6 +42,7 @@ val restModule = module {
     factory { provideOkHttpClient(get(), get()) }
     factory { provideGson(get(), get()) }
     single { provideRetrofit(get(), get()) }
+    single { provideLoginService(get()) }
     single { provideExerciseService(get()) }
     factory { provideLocalDateTimeDeserializer() }
     factory { provideLocalDateTimeSerializer() }
@@ -50,6 +52,9 @@ val restModule = module {
 // And: https://medium.com/@harmittaa/retrofit-2-6-0-with-koin-and-coroutines-4ff45a4792fc
 fun provideExerciseService(retrofit: Retrofit): ExerciseService =
     retrofit.create(ExerciseService::class.java)
+
+fun provideLoginService(retrofit: Retrofit): LoginService =
+    retrofit.create(LoginService::class.java)
 
 fun provideRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit = Retrofit.Builder()
     .baseUrl(BACKEND_BASE_URL)
