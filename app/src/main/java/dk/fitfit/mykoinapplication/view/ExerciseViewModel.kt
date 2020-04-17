@@ -8,13 +8,13 @@ import dk.fitfit.mykoinapplication.domain.dto.ExerciseRequest
 import dk.fitfit.mykoinapplication.synchronize.ExerciseService
 
 class ExerciseViewModel(application: Application, private val repository: ExerciseRepository, private val exerciseService: ExerciseService) : AndroidViewModel(application) {
-    suspend fun insert(exercise: Exercise) {
-//        repository.insert(exercise)
-        exerciseService.save(ExerciseRequest(exercise.name, exercise.description))
-    }
-
-    fun update(exercise: Exercise) {
-        repository.update(exercise)
+    suspend fun upsert(exercise: Exercise) {
+        val exerciseRequest = ExerciseRequest(exercise.name, exercise.description, exercise.id)
+        if (exerciseRequest.id == 0L) {
+            exerciseService.save(exerciseRequest)
+        } else {
+            exerciseService.update(exerciseRequest.id, exerciseRequest)
+        }
     }
 
     fun delete(exercise: Exercise) {

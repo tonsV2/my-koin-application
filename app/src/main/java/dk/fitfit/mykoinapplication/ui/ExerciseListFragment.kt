@@ -18,6 +18,10 @@ import kotlinx.android.synthetic.main.fragment_exercise_list.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
+const val EXTRA_ID = "exercise-id"
+const val EXTRA_NAME = "exercise-name"
+const val EXTRA_DESCRIPTION = "exercise-description"
+
 class ExerciseListFragment : Fragment() {
     private val exerciseViewModel: ExerciseViewModel by viewModel()
     private val exerciseSynchronizer: ExerciseSynchronizer by inject()
@@ -40,7 +44,12 @@ class ExerciseListFragment : Fragment() {
         exerciseRecyclerView.setHasFixedSize(true)
 
         val adapter = ExerciseAdapter {
-            context?.toast(it.name)
+            val bundle = bundleOf(
+                EXTRA_ID to it.id,
+                EXTRA_NAME to it.name,
+                EXTRA_DESCRIPTION to it.description
+            )
+            findNavController().navigate(R.id.action_ExerciseListFragment_to_AddExerciseFragment, bundle)
         }
 
         exerciseRecyclerView.adapter = adapter

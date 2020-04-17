@@ -10,22 +10,28 @@ import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.domain.Exercise
 import dk.fitfit.mykoinapplication.ui.extension.toast
 import dk.fitfit.mykoinapplication.view.ExerciseViewModel
-import kotlinx.android.synthetic.main.fragment_add_exercise.*
+import kotlinx.android.synthetic.main.fragment_addeddit_exercise.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class AddExerciseFragment : Fragment() {
+class AddEditExerciseFragment : Fragment() {
     private val exerciseViewModel: ExerciseViewModel by viewModel()
     private var id: Long = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_add_exercise, container, false)
+        return inflater.inflate(R.layout.fragment_addeddit_exercise, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "New Exercise"
+
+        arguments?.let {
+            id = it.getLong(EXTRA_ID, 0L)
+            editTextName.setText(it.getString(EXTRA_NAME, ""))
+            editTextDescription.setText(it.getString(EXTRA_DESCRIPTION, ""))
+        }
 
         save.setOnClickListener {
             val name = editTextName.text.toString()
@@ -37,7 +43,7 @@ class AddExerciseFragment : Fragment() {
             }
 
             GlobalScope.launch {
-                exerciseViewModel.insert(Exercise(name, description, 0, id))
+                exerciseViewModel.upsert(Exercise(name, description, 0, id))
             }
 
             findNavController().navigate(R.id.action_AddExerciseFragment_to_ExerciseListFragment)
