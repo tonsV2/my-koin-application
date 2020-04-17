@@ -6,14 +6,19 @@ import dk.fitfit.mykoinapplication.domain.Exercise
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository
 import dk.fitfit.mykoinapplication.domain.dto.ExerciseRequest
 import dk.fitfit.mykoinapplication.rest.service.ExerciseService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class ExerciseViewModel(application: Application, private val repository: ExerciseRepository, private val exerciseService: ExerciseService) : AndroidViewModel(application) {
-    suspend fun upsert(exercise: Exercise) {
-        val exerciseRequest = ExerciseRequest(exercise.name, exercise.description, exercise.id)
-        if (exerciseRequest.id == 0L) {
-            exerciseService.save(exerciseRequest)
-        } else {
-            exerciseService.update(exerciseRequest.id, exerciseRequest)
+    fun upsert(exercise: Exercise) {
+        CoroutineScope(IO).launch {
+            val exerciseRequest = ExerciseRequest(exercise.name, exercise.description, exercise.id)
+            if (exerciseRequest.id == 0L) {
+                exerciseService.save(exerciseRequest)
+            } else {
+                exerciseService.update(exerciseRequest.id, exerciseRequest)
+            }
         }
     }
 

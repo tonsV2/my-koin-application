@@ -2,7 +2,6 @@ package dk.fitfit.mykoinapplication.synchronize
 
 import android.content.Context
 import android.util.Log
-import com.google.gson.annotations.SerializedName
 import dk.fitfit.mykoinapplication.MainApplication.Companion.TOKEN_STORE
 import dk.fitfit.mykoinapplication.domain.Exercise
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository

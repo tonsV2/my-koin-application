@@ -42,9 +42,7 @@ class AddEditExerciseFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            GlobalScope.launch {
-                exerciseViewModel.upsert(Exercise(name, description, 0, id))
-            }
+            exerciseViewModel.upsert(Exercise(name, description, 0, id))
 
             findNavController().navigate(R.id.action_AddExerciseFragment_to_ExerciseListFragment)
         }
