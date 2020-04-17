@@ -45,7 +45,8 @@ val restModule = module {
 
 // Inspiration: https://blog.coinbase.com/okhttp-oauth-token-refreshes-b598f55dd3b2
 // And: https://medium.com/@harmittaa/retrofit-2-6-0-with-koin-and-coroutines-4ff45a4792fc
-fun provideExerciseService(retrofit: Retrofit): ExerciseService = retrofit.create(ExerciseService::class.java)
+fun provideExerciseService(retrofit: Retrofit): ExerciseService =
+    retrofit.create(ExerciseService::class.java)
 
 fun provideRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit = Retrofit.Builder()
     .baseUrl(BACKEND_BASE_URL)
@@ -53,10 +54,13 @@ fun provideRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit = Retrofit.B
     .addConverterFactory(GsonConverterFactory.create(gson))
     .build()
 
-fun provideOkHttpClient(accessTokenInterceptor: AccessTokenInterceptor, accessTokenAuthenticator: AccessTokenAuthenticator): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(accessTokenInterceptor)
-        .authenticator(accessTokenAuthenticator)
-        .build()
+fun provideOkHttpClient(
+    accessTokenInterceptor: AccessTokenInterceptor,
+    accessTokenAuthenticator: AccessTokenAuthenticator
+): OkHttpClient = OkHttpClient.Builder()
+    .addInterceptor(accessTokenInterceptor)
+    .authenticator(accessTokenAuthenticator)
+    .build()
 
 fun provideLocalDateTimeDeserializer() = JsonDeserializer { json, _, _ ->
     // Inspiration: https://www.reddit.com/r/Kotlin/comments/f84989/any_suggestion_about_how_to_make_my_code_a_bit/
@@ -77,7 +81,10 @@ fun provideLocalDateTimeSerializer() = JsonSerializer<LocalDateTime> { localDate
     jsonArray
 }
 
-fun provideGson(localDateTimeSerializer: JsonSerializer<LocalDateTime>, localDateTimeDeserializer: JsonDeserializer<LocalDateTime>): Gson = GsonBuilder()
+fun provideGson(
+    localDateTimeSerializer: JsonSerializer<LocalDateTime>,
+    localDateTimeDeserializer: JsonDeserializer<LocalDateTime>
+): Gson = GsonBuilder()
     .registerTypeAdapter(LocalDateTime::class.java, localDateTimeSerializer)
     .registerTypeAdapter(LocalDateTime::class.java, localDateTimeDeserializer)
     .create()
