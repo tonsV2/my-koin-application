@@ -26,12 +26,17 @@ class AddEditExerciseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = "New Exercise"
 
         arguments?.let {
             id = it.getLong(EXTRA_ID, 0L)
             editTextName.setText(it.getString(EXTRA_NAME, ""))
             editTextDescription.setText(it.getString(EXTRA_DESCRIPTION, ""))
+        }
+
+        activity?.title = if (id == 0L) {
+            "New Exercise"
+        } else {
+            "Update Exercise"
         }
 
         save.setOnClickListener {
