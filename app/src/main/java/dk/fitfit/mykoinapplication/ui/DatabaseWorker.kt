@@ -7,12 +7,9 @@ import dk.fitfit.mykoinapplication.MainApplication.Companion.TOKEN_STORE
 import dk.fitfit.mykoinapplication.domain.Exercise
 import dk.fitfit.mykoinapplication.domain.ExerciseRepository
 import dk.fitfit.mykoinapplication.domain.dto.ExerciseResponse
-import dk.fitfit.mykoinapplication.rest.Rest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import retrofit2.HttpException
@@ -31,11 +28,8 @@ abstract class DataSynchronizer {
     }
 }
 
-class ExerciseSynchronizer(val context: Context) : DataSynchronizer(), KoinComponent {
+class ExerciseSynchronizer(private val context: Context, private val exerciseRepository: ExerciseRepository, private val exerciseService: ExerciseService) : DataSynchronizer() {
     override suspend fun doWork() {
-        val exerciseRepository: ExerciseRepository by inject()
-
-        val exerciseService = Rest.client(context).create(ExerciseService::class.java)
         val username = "some username"
         val password = "some password"
         try {
@@ -57,13 +51,13 @@ class ExerciseSynchronizer(val context: Context) : DataSynchronizer(), KoinCompo
         Log.d("Worker", "Retrieved from server: ${exerciseResponses.size}")
 
         val exercises = exerciseResponses.map {
-            Exercise(it.name, it.description, epochMilli(it.updated), it.id)
+            Exercise(it.name, it.description, it.updated.toEpochMilli(), it.id)
         }
 
         exerciseRepository.insert(exercises)
     }
 
-    private fun epochMilli(dateTime: LocalDateTime) = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli()
+    private fun LocalDateTime.toEpochMilli() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
 }
 
 class Credentials(val username: String, val password: String)
