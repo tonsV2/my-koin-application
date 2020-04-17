@@ -15,10 +15,9 @@ import kotlinx.android.synthetic.main.exercise_item.view.*
 class ExerciseAdapter(private val onItemClickListener: (Exercise) -> Unit) : ListAdapter<Exercise, ExerciseAdapter.ExerciseHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.exercise_item, parent, false)
-        return ExerciseHolder(
-            itemView
-        )
+        return ExerciseHolder(itemView)
     }
+
     override fun onBindViewHolder(holder: ExerciseHolder, position: Int) {
         val exercise = getItem(position)
         holder.exerciseName.text = "${exercise.id}:${exercise.name}"
