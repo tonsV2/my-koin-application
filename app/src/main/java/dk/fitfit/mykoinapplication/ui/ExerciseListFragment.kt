@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.synchronize.ExerciseSynchronizer
 import dk.fitfit.mykoinapplication.ui.adapter.ExerciseAdapter
+import dk.fitfit.mykoinapplication.ui.extension.toast
 import dk.fitfit.mykoinapplication.view.ExerciseViewModel
 import kotlinx.android.synthetic.main.fragment_exercise_list.*
 import org.koin.android.ext.android.inject
@@ -30,7 +31,11 @@ class ExerciseListFragment : Fragment() {
         exerciseRecyclerView.layoutManager = LinearLayoutManager(context)
         exerciseRecyclerView.setHasFixedSize(true)
 
-        val adapter = ExerciseAdapter()
+
+        val adapter = ExerciseAdapter {
+            context?.toast(it.name)
+        }
+
         exerciseRecyclerView.adapter = adapter
 
         exerciseViewModel.findAll().observe(viewLifecycleOwner, Observer {
