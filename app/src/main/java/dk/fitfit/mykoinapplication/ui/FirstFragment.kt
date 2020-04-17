@@ -42,7 +42,8 @@ class FirstFragment : Fragment() {
         }
 
         buttonUpdateModel.setOnClickListener {
-            myViewModel.currentName.value = "John Doe"
+//            myViewModel.currentName.value = "John Doe"
+            findNavController().navigate(R.id.action_FirstFragment_to_ExerciseListFragment)
         }
     }
 }

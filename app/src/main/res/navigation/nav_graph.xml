@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_ExerciseListFragment"
+            app:destination="@id/ExerciseListFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -24,5 +27,16 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ExerciseListFragment"
+        android:name="dk.fitfit.mykoinapplication.ui.ExerciseListFragment"
+        android:label="@string/exercise_list_fragment_label"
+        tools:layout="@layout/fragment_exercise_list">
+<!-- TODO: Go to exercise details fragment
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+-->
     </fragment>
 </navigation>
