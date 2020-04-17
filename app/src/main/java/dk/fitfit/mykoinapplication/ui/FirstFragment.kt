@@ -41,8 +41,7 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
-        buttonUpdateModel.setOnClickListener {
-//            myViewModel.currentName.value = "John Doe"
+        navigateToExerciseList.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_ExerciseListFragment)
         }
     }

@@ -17,7 +17,7 @@
         app:layout_constraintTop_toBottomOf="@id/textviewFirst" />
 
     <Button
-        android:id="@+id/buttonUpdateModel"
+        android:id="@+id/navigateToExerciseList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/go_to_exercises"
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_first_fragment"
-        app:layout_constraintBottom_toTopOf="@id/buttonUpdateModel"
+        app:layout_constraintBottom_toTopOf="@id/navigateToExerciseList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
