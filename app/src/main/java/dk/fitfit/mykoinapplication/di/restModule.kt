@@ -1,47 +1,18 @@
-package dk.fitfit.mykoinapplication
+package dk.fitfit.mykoinapplication.di
 
 import com.google.gson.*
-import dk.fitfit.mykoinapplication.db.FitLogDatabase
-import dk.fitfit.mykoinapplication.db.repository.ExerciseRepository
-import dk.fitfit.mykoinapplication.db.repository.impl.ExerciseRepositoryImpl
-import dk.fitfit.mykoinapplication.repository.HelloRepository
-import dk.fitfit.mykoinapplication.repository.HelloRepositoryImpl
+import dk.fitfit.mykoinapplication.BACKEND_BASE_URL
 import dk.fitfit.mykoinapplication.rest.AccessTokenAuthenticator
 import dk.fitfit.mykoinapplication.rest.AccessTokenInterceptor
 import dk.fitfit.mykoinapplication.rest.AccessTokenProvider
 import dk.fitfit.mykoinapplication.rest.AccessTokenProviderDefault
 import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 import dk.fitfit.mykoinapplication.rest.service.LoginService
-import dk.fitfit.mykoinapplication.synchronize.ExerciseSynchronizer
-import dk.fitfit.mykoinapplication.view.ExerciseViewModel
-import dk.fitfit.mykoinapplication.view.MyViewModel
 import okhttp3.OkHttpClient
-import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.threeten.bp.LocalDateTime
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
-@JvmField
-val appModule = module {
-    single<HelloRepository> { HelloRepositoryImpl() }
-    viewModel { MyViewModel(get()) }
-    viewModel { ExerciseViewModel(get(), get(), get()) }
-}
-
-@JvmField
-val syncModule = module {
-    single { ExerciseSynchronizer(get(), get()) }
-}
-
-@JvmField
-val databaseModule = module {
-    single { FitLogDatabase.getDatabase(get()) }
-    single { provideExerciseDao(get()) }
-    single<ExerciseRepository> { ExerciseRepositoryImpl(get()) }
-}
-
-fun provideExerciseDao(database: FitLogDatabase) = database.exerciseDao()
 
 @JvmField
 val restModule = module {
