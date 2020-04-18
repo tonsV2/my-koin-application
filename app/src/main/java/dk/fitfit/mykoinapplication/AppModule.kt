@@ -1,6 +1,7 @@
 package dk.fitfit.mykoinapplication
 
 import com.google.gson.*
+import dk.fitfit.mykoinapplication.db.FitLogDatabase
 import dk.fitfit.mykoinapplication.db.repository.ExerciseRepository
 import dk.fitfit.mykoinapplication.db.repository.impl.ExerciseRepositoryImpl
 import dk.fitfit.mykoinapplication.repository.HelloRepository
@@ -24,7 +25,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 @JvmField
 val appModule = module {
     single<HelloRepository> { HelloRepositoryImpl() }
-    single<ExerciseRepository> { ExerciseRepositoryImpl(get()) }
     viewModel { MyViewModel(get()) }
     viewModel { ExerciseViewModel(get(), get(), get()) }
 }
@@ -35,17 +35,26 @@ val syncModule = module {
 }
 
 @JvmField
+val databaseModule = module {
+    single { FitLogDatabase.getDatabase(get()) }
+    single { provideExerciseDao(get()) }
+    single<ExerciseRepository> { ExerciseRepositoryImpl(get()) }
+}
+
+fun provideExerciseDao(database: FitLogDatabase) = database.exerciseDao()
+
+@JvmField
 val restModule = module {
     single<AccessTokenProvider> { AccessTokenProviderDefault(get()) }
     factory { AccessTokenAuthenticator(get()) }
     factory { AccessTokenInterceptor(get()) }
     factory { provideOkHttpClient(get(), get()) }
+    factory { provideLocalDateTimeSerializer() }
+    factory { provideLocalDateTimeDeserializer() }
     factory { provideGson(get(), get()) }
     single { provideRetrofit(get(), get()) }
     single { provideLoginService(get()) }
     single { provideExerciseService(get()) }
-    factory { provideLocalDateTimeDeserializer() }
-    factory { provideLocalDateTimeSerializer() }
 }
 
 // Inspiration: https://blog.coinbase.com/okhttp-oauth-token-refreshes-b598f55dd3b2

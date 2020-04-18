@@ -25,6 +25,7 @@ class ExerciseSynchronizer(private val exerciseRepository: ExerciseRepository, p
         val lastUpdate = exerciseRepository.getLastUpdate()
         // TODO: Try catch... network error
         val exerciseResponses = exerciseService.getExercises(lastUpdate)
+
         Log.d("Worker", "lastUpdate: $lastUpdate")
         Log.d("Worker", "Retrieved from server: ${exerciseResponses.size}")
 
