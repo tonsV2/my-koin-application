@@ -1,8 +1,8 @@
 package dk.fitfit.mykoinapplication
 
 import com.google.gson.*
-import dk.fitfit.mykoinapplication.domain.ExerciseRepository
-import dk.fitfit.mykoinapplication.domain.ExerciseRepositoryImpl
+import dk.fitfit.mykoinapplication.db.repository.ExerciseRepository
+import dk.fitfit.mykoinapplication.db.repository.impl.ExerciseRepositoryImpl
 import dk.fitfit.mykoinapplication.repository.HelloRepository
 import dk.fitfit.mykoinapplication.repository.HelloRepositoryImpl
 import dk.fitfit.mykoinapplication.rest.AccessTokenAuthenticator

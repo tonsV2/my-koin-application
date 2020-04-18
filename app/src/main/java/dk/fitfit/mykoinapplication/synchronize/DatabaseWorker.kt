@@ -1,8 +1,8 @@
 package dk.fitfit.mykoinapplication.synchronize
 
 import android.util.Log
+import dk.fitfit.mykoinapplication.db.repository.ExerciseRepository
 import dk.fitfit.mykoinapplication.domain.Exercise
-import dk.fitfit.mykoinapplication.domain.ExerciseRepository
 import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
