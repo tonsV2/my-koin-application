@@ -23,9 +23,5 @@ class ExerciseViewModel(application: Application, private val repository: Exerci
         }
     }
 
-    fun delete(exercise: Exercise) {
-        repository.delete(exercise)
-    }
-
     fun findAll() = repository.findAll()
 }

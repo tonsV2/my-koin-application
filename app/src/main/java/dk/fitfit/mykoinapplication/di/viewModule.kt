@@ -9,7 +9,5 @@ import org.koin.dsl.module
 
 @JvmField
 val viewModule = module {
-    single<HelloRepository> { HelloRepositoryImpl() }
-    viewModel { MyViewModel(get()) }
     viewModel { ExerciseViewModel(get(), get(), get()) }
 }
