@@ -8,8 +8,6 @@ import org.koin.dsl.module
 @JvmField
 val databaseModule = module {
     single { FitLogDatabase.getDatabase(get()) }
-    single { provideExerciseDao(get()) }
+    single { get<FitLogDatabase>().exerciseDao() }
     single<ExerciseRepository> { ExerciseRepositoryImpl(get()) }
 }
-
-fun provideExerciseDao(database: FitLogDatabase) = database.exerciseDao()
