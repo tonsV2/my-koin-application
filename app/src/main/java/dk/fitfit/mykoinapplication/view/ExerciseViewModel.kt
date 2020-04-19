@@ -3,8 +3,8 @@ package dk.fitfit.mykoinapplication.view
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import dk.fitfit.mykoinapplication.db.repository.ExerciseRepository
-import dk.fitfit.mykoinapplication.domain.Exercise
-import dk.fitfit.mykoinapplication.domain.dto.ExerciseRequest
+import dk.fitfit.mykoinapplication.db.model.Exercise
+import dk.fitfit.fitlog.dto.ExerciseRequest
 import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO

@@ -1,7 +1,7 @@
 package dk.fitfit.mykoinapplication.rest.service
 
-import dk.fitfit.mykoinapplication.domain.dto.ExerciseRequest
-import dk.fitfit.mykoinapplication.domain.dto.ExerciseResponse
+import dk.fitfit.fitlog.dto.ExerciseRequest
+import dk.fitfit.fitlog.dto.ExerciseResponse
 import retrofit2.http.*
 
 interface ExerciseService {

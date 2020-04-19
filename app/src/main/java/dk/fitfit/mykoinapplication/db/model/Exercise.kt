@@ -1,4 +1,4 @@
-package dk.fitfit.mykoinapplication.domain
+package dk.fitfit.mykoinapplication.db.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import dk.fitfit.mykoinapplication.db.dao.ExerciseDao
-import dk.fitfit.mykoinapplication.domain.Exercise
+import dk.fitfit.mykoinapplication.db.model.Exercise
 
 @Database(entities = [Exercise::class], version = 1)
 abstract class FitLogDatabase : RoomDatabase() {

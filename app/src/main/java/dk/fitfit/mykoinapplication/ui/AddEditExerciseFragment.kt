@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import dk.fitfit.mykoinapplication.R
-import dk.fitfit.mykoinapplication.domain.Exercise
+import dk.fitfit.mykoinapplication.db.model.Exercise
 import dk.fitfit.mykoinapplication.ui.ExerciseListFragment.Companion.EXTRA_DESCRIPTION
 import dk.fitfit.mykoinapplication.ui.ExerciseListFragment.Companion.EXTRA_ID
 import dk.fitfit.mykoinapplication.ui.ExerciseListFragment.Companion.EXTRA_NAME
@@ -48,7 +48,14 @@ class AddEditExerciseFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            exerciseViewModel.upsert(Exercise(name, description, 0, id))
+            exerciseViewModel.upsert(
+                Exercise(
+                    name,
+                    description,
+                    0,
+                    id
+                )
+            )
 
             findNavController().navigate(R.id.action_AddExerciseFragment_to_ExerciseListFragment)
         }

@@ -2,7 +2,7 @@ package dk.fitfit.mykoinapplication.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import dk.fitfit.mykoinapplication.domain.Exercise
+import dk.fitfit.mykoinapplication.db.model.Exercise
 
 @Dao
 interface ExerciseDao {

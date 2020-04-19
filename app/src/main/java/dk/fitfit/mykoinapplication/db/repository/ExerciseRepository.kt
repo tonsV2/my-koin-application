@@ -3,7 +3,7 @@ package dk.fitfit.mykoinapplication.db.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import dk.fitfit.mykoinapplication.db.dao.ExerciseDao
-import dk.fitfit.mykoinapplication.domain.Exercise
+import dk.fitfit.mykoinapplication.db.model.Exercise
 
 class ExerciseRepository(private val exerciseDao: ExerciseDao) {
     fun insert(exercise: Exercise) {

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import dk.fitfit.mykoinapplication.R
-import dk.fitfit.mykoinapplication.domain.Exercise
+import dk.fitfit.mykoinapplication.db.model.Exercise
 import kotlinx.android.synthetic.main.exercise_item.view.*
 
 class ExerciseAdapter(private val onItemClickListener: (Exercise) -> Unit) : ListAdapter<Exercise, ExerciseAdapter.ExerciseHolder>(DIFF_CALLBACK) {

@@ -10,9 +10,9 @@ import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 import dk.fitfit.mykoinapplication.rest.service.LoginService
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
-import org.threeten.bp.LocalDateTime
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
 
 @JvmField
 val restModule = module {
