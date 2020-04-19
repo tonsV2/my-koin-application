@@ -30,19 +30,19 @@ val restModule = module {
 
 // Inspiration: https://blog.coinbase.com/okhttp-oauth-token-refreshes-b598f55dd3b2
 // And: https://medium.com/@harmittaa/retrofit-2-6-0-with-koin-and-coroutines-4ff45a4792fc
-fun provideExerciseService(retrofit: Retrofit): ExerciseService =
+private fun provideExerciseService(retrofit: Retrofit): ExerciseService =
     retrofit.create(ExerciseService::class.java)
 
-fun provideLoginService(retrofit: Retrofit): LoginService =
+private fun provideLoginService(retrofit: Retrofit): LoginService =
     retrofit.create(LoginService::class.java)
 
-fun provideRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit = Retrofit.Builder()
+private fun provideRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit = Retrofit.Builder()
     .baseUrl(BACKEND_BASE_URL)
     .client(httpClient)
     .addConverterFactory(GsonConverterFactory.create(gson))
     .build()
 
-fun provideOkHttpClient(
+private fun provideOkHttpClient(
     accessTokenInterceptor: AccessTokenInterceptor,
     accessTokenAuthenticator: AccessTokenAuthenticator
 ): OkHttpClient = OkHttpClient.Builder()
@@ -50,14 +50,14 @@ fun provideOkHttpClient(
     .authenticator(accessTokenAuthenticator)
     .build()
 
-fun provideLocalDateTimeDeserializer() = JsonDeserializer { json, _, _ ->
+private fun provideLocalDateTimeDeserializer() = JsonDeserializer { json, _, _ ->
     // Inspiration: https://www.reddit.com/r/Kotlin/comments/f84989/any_suggestion_about_how_to_make_my_code_a_bit/
     json.asJsonArray.map { it.asInt }.let {
         LocalDateTime.of(it[0], it[1], it[2], it[3], it[4], it[5], if (it.size < 7) 0 else it[6])
     }
 }
 
-fun provideLocalDateTimeSerializer() = JsonSerializer<LocalDateTime> { localDateTime, _, _ ->
+private fun provideLocalDateTimeSerializer() = JsonSerializer<LocalDateTime> { localDateTime, _, _ ->
     val jsonArray = JsonArray()
     jsonArray.add(localDateTime.year)
     jsonArray.add(localDateTime.monthValue)
@@ -69,7 +69,7 @@ fun provideLocalDateTimeSerializer() = JsonSerializer<LocalDateTime> { localDate
     jsonArray
 }
 
-fun provideGson(
+private fun provideGson(
     localDateTimeSerializer: JsonSerializer<LocalDateTime>,
     localDateTimeDeserializer: JsonDeserializer<LocalDateTime>
 ): Gson = GsonBuilder()
