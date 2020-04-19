@@ -12,5 +12,5 @@ interface ExerciseService {
     suspend fun save(@Body exercise: ExerciseRequest): ExerciseResponse
 
     @PUT("/exercises/{id}")
-    suspend fun update(@Path("id") id: Long, @Body exerciseRequest: ExerciseRequest)
+    suspend fun update(@Path("id") id: Long, @Body exerciseRequest: ExerciseRequest): ExerciseResponse
 }

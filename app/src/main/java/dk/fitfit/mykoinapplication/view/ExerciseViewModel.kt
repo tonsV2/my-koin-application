@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import dk.fitfit.mykoinapplication.db.repository.ExerciseRepository
 import dk.fitfit.mykoinapplication.db.model.Exercise
 import dk.fitfit.fitlog.dto.ExerciseRequest
+import dk.fitfit.mykoinapplication.db.model.toEpochMilli
 import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -15,10 +16,13 @@ class ExerciseViewModel(application: Application, private val repository: Exerci
         // TODO: Should this be in ExerciseRepository... Or somewhere else?
         CoroutineScope(IO).launch {
             val exerciseRequest = ExerciseRequest(exercise.name, exercise.description, exercise.id)
-            if (exerciseRequest.id == 0L) {
+            val exerciseResponse = if (exerciseRequest.id == 0L) {
                 exerciseService.save(exerciseRequest)
             } else {
                 exerciseService.update(exerciseRequest.id, exerciseRequest)
+            }
+            with(exerciseResponse) {
+                repository.insert(Exercise(name, description, updated.toEpochMilli(), id))
             }
         }
     }
