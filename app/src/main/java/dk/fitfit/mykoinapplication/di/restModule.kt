@@ -30,24 +30,24 @@ val restModule = module {
 // Inspiration: https://blog.coinbase.com/okhttp-oauth-token-refreshes-b598f55dd3b2
 // And: https://medium.com/@harmittaa/retrofit-2-6-0-with-koin-and-coroutines-4ff45a4792fc
 private fun provideExerciseService(retrofit: Retrofit): ExerciseService =
-    retrofit.create(ExerciseService::class.java)
+        retrofit.create(ExerciseService::class.java)
 
 private fun provideLoginService(retrofit: Retrofit): LoginService =
-    retrofit.create(LoginService::class.java)
+        retrofit.create(LoginService::class.java)
 
 private fun provideRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit = Retrofit.Builder()
-    .baseUrl(BACKEND_BASE_URL)
-    .client(httpClient)
-    .addConverterFactory(GsonConverterFactory.create(gson))
-    .build()
+        .baseUrl(BACKEND_BASE_URL)
+        .client(httpClient)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .build()
 
 private fun provideOkHttpClient(
-    accessTokenInterceptor: AccessTokenInterceptor,
-    accessTokenAuthenticator: AccessTokenAuthenticator
+        accessTokenInterceptor: AccessTokenInterceptor,
+        accessTokenAuthenticator: AccessTokenAuthenticator
 ): OkHttpClient = OkHttpClient.Builder()
-    .addInterceptor(accessTokenInterceptor)
-    .authenticator(accessTokenAuthenticator)
-    .build()
+        .addInterceptor(accessTokenInterceptor)
+        .authenticator(accessTokenAuthenticator)
+        .build()
 
 private fun provideLocalDateTimeDeserializer() = JsonDeserializer { json, _, _ ->
     // Inspiration: https://www.reddit.com/r/Kotlin/comments/f84989/any_suggestion_about_how_to_make_my_code_a_bit/
@@ -69,9 +69,9 @@ private fun provideLocalDateTimeSerializer() = JsonSerializer<LocalDateTime> { l
 }
 
 private fun provideGson(
-    localDateTimeSerializer: JsonSerializer<LocalDateTime>,
-    localDateTimeDeserializer: JsonDeserializer<LocalDateTime>
+        localDateTimeSerializer: JsonSerializer<LocalDateTime>,
+        localDateTimeDeserializer: JsonDeserializer<LocalDateTime>
 ): Gson = GsonBuilder()
-    .registerTypeAdapter(LocalDateTime::class.java, localDateTimeSerializer)
-    .registerTypeAdapter(LocalDateTime::class.java, localDateTimeDeserializer)
-    .create()
+        .registerTypeAdapter(LocalDateTime::class.java, localDateTimeSerializer)
+        .registerTypeAdapter(LocalDateTime::class.java, localDateTimeDeserializer)
+        .create()
