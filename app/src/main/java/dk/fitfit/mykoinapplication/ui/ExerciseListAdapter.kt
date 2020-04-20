@@ -1,4 +1,4 @@
-package dk.fitfit.mykoinapplication.ui.adapter
+package dk.fitfit.mykoinapplication.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,7 @@ import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.db.model.Exercise
 import kotlinx.android.synthetic.main.exercise_item.view.*
 
-class ExerciseAdapter(private val onItemClickListener: (Exercise) -> Unit) : ListAdapter<Exercise, ExerciseAdapter.ExerciseHolder>(DIFF_CALLBACK) {
+class ExerciseListAdapter(private val onItemClickListener: (Exercise) -> Unit) : ListAdapter<Exercise, ExerciseListAdapter.ExerciseHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.exercise_item, parent, false)
         return ExerciseHolder(itemView)

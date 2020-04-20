@@ -11,8 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.synchronize.ExerciseSynchronizer
-import dk.fitfit.mykoinapplication.ui.adapter.ExerciseAdapter
-import dk.fitfit.mykoinapplication.ui.extension.toast
 import dk.fitfit.mykoinapplication.view.ExerciseViewModel
 import kotlinx.android.synthetic.main.fragment_exercise_list.*
 import org.koin.android.ext.android.inject
@@ -39,11 +37,11 @@ class ExerciseListFragment : Fragment() {
         exerciseRecyclerView.layoutManager = LinearLayoutManager(context)
         exerciseRecyclerView.setHasFixedSize(true)
 
-        val adapter = ExerciseAdapter {
+        val adapter = ExerciseListAdapter {
             val bundle = bundleOf(
-                EXTRA_ID to it.id,
-                EXTRA_NAME to it.name,
-                EXTRA_DESCRIPTION to it.description
+                    EXTRA_ID to it.id,
+                    EXTRA_NAME to it.name,
+                    EXTRA_DESCRIPTION to it.description
             )
             findNavController().navigate(R.id.action_ExerciseListFragment_to_AddExerciseFragment, bundle)
         }
