@@ -5,7 +5,6 @@ import dk.fitfit.mykoinapplication.BACKEND_BASE_URL
 import dk.fitfit.mykoinapplication.rest.AccessTokenAuthenticator
 import dk.fitfit.mykoinapplication.rest.AccessTokenInterceptor
 import dk.fitfit.mykoinapplication.rest.AccessTokenProvider
-import dk.fitfit.mykoinapplication.rest.AccessTokenProviderDefault
 import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 import dk.fitfit.mykoinapplication.rest.service.LoginService
 import okhttp3.OkHttpClient
@@ -16,7 +15,7 @@ import java.time.LocalDateTime
 
 @JvmField
 val restModule = module {
-    single<AccessTokenProvider> { AccessTokenProviderDefault(get()) }
+    single { AccessTokenProvider(get()) }
     factory { AccessTokenAuthenticator(get()) }
     factory { AccessTokenInterceptor(get()) }
     factory { provideOkHttpClient(get(), get()) }

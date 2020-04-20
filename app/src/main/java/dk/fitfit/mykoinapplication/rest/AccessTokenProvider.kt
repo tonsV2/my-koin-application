@@ -1,14 +1,13 @@
 package dk.fitfit.mykoinapplication.rest
 
-interface AccessTokenProvider {
-    /**
-     * Returns an access token. In the event that you don't have a token return null.
-     */
-    fun token(): String?
+import android.content.Context
+import dk.fitfit.mykoinapplication.ui.MainActivity.Companion.TOKEN_STORE
 
-    /**
-     * Refreshes the token and returns it. This call should be made synchronously.
-     * In the event that the token could not be refreshed return null.
-     */
-    fun refreshToken(): String?
+class AccessTokenProvider(private val context: Context) {
+    fun token(): String? {
+        val settings = context.getSharedPreferences(TOKEN_STORE, Context.MODE_PRIVATE)
+        return settings.getString("accessToken", null)
+    }
+
+    fun refreshToken(): String? = null
 }
