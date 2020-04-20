@@ -2,28 +2,22 @@ package dk.fitfit.mykoinapplication.ui
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import dk.fitfit.mykoinapplication.db.repository.ExerciseRepository
+import androidx.lifecycle.viewModelScope
+import dk.fitfit.mykoinapplication.repository.ExerciseRepository
 import dk.fitfit.mykoinapplication.db.model.Exercise
-import dk.fitfit.fitlog.dto.ExerciseRequest
-import dk.fitfit.mykoinapplication.db.model.toEpochMilli
-import dk.fitfit.mykoinapplication.rest.service.ExerciseService
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-class ExerciseViewModel(application: Application, private val repository: ExerciseRepository, private val exerciseService: ExerciseService) : AndroidViewModel(application) {
+class ExerciseViewModel(application: Application, private val repository: ExerciseRepository) : AndroidViewModel(application) {
     fun upsert(exercise: Exercise) {
-        // TODO: Should this be in ExerciseRepository... Or somewhere else?
-        CoroutineScope(IO).launch {
-            val exerciseRequest = ExerciseRequest(exercise.name, exercise.description, exercise.id)
-            val exerciseResponse = if (exerciseRequest.id == 0L) {
-                exerciseService.save(exerciseRequest)
-            } else {
-                exerciseService.update(exerciseRequest.id, exerciseRequest)
-            }
-            with(exerciseResponse) {
-                repository.insert(Exercise(name, description, updated.toEpochMilli(), id))
-            }
+        viewModelScope.launch(IO) {
+            repository.upsert(exercise)
+        }
+    }
+
+    fun update() {
+        viewModelScope.launch(IO) {
+            repository.update()
         }
     }
 

@@ -6,5 +6,5 @@ import org.koin.dsl.module
 
 @JvmField
 val viewModule = module {
-    viewModel { ExerciseViewModel(get(), get(), get()) }
+    viewModel { ExerciseViewModel(get(), get()) }
 }
