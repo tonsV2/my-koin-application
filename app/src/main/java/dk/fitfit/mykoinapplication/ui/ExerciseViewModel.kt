@@ -1,4 +1,4 @@
-package dk.fitfit.mykoinapplication.view
+package dk.fitfit.mykoinapplication.ui
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
