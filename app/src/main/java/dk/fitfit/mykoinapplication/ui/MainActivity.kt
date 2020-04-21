@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     private fun backendLogin(token: String) {
         CoroutineScope(IO).launch {
             try {
-                val oauthTokens = loginService.login(Credentials("_", token))
+                val oauthTokens = loginService.login(Credentials("google", token))
                 val settings = applicationContext.getSharedPreferences(TOKEN_STORE, Context.MODE_PRIVATE)
                 settings.edit()
                     .putString("accessToken", oauthTokens.accessToken)
