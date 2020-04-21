@@ -49,7 +49,7 @@ class AddEditExerciseFragment : Fragment() {
 
             exerciseViewModel.upsert(Exercise(name, description, 0, id))
 
-            findNavController().navigate(R.id.action_AddExerciseFragment_to_ExerciseListFragment)
+            findNavController().navigateUp()
         }
     }
 }
