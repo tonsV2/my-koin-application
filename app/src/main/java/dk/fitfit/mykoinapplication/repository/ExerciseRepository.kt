@@ -17,7 +17,7 @@ class ExerciseRepository(private val exerciseService: ExerciseService, private v
             exerciseService.update(exerciseRequest.id, exerciseRequest)
         }
         with(exerciseResponse) {
-            exerciseDao.insert(Exercise(name, description, updated.toEpochMilli(), id))
+            exerciseDao.insert(Exercise(name, description, updated?.toEpochMilli(), id))
         }
     }
 
@@ -30,7 +30,7 @@ class ExerciseRepository(private val exerciseService: ExerciseService, private v
         Log.d("Worker", "Retrieved from server: ${exerciseResponses.size}")
 
         val exercises = exerciseResponses.map {
-            Exercise(it.name, it.description, it.updated.toEpochMilli(), it.id)
+            Exercise(it.name, it.description, it.updated?.toEpochMilli(), it.id)
         }
 
         exerciseDao.insert(exercises)

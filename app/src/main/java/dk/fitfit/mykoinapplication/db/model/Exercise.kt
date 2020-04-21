@@ -9,7 +9,7 @@ import java.time.ZoneOffset
 data class Exercise(
     val name: String,
     val description: String,
-    val updated: Long,
+    val updated: Long?,
     @PrimaryKey(autoGenerate = false) val id: Long = 0
 )
 

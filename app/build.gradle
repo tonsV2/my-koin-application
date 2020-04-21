@@ -77,5 +77,5 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
-    implementation 'dk.fitfit.fitlog:fitlog-dto:0.4.0'
+    implementation 'dk.fitfit.fitlog:fitlog-dto:0.5.0'
 }
