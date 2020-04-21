@@ -1,14 +1,16 @@
 package dk.fitfit.mykoinapplication.ui
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dk.fitfit.mykoinapplication.repository.ExerciseRepository
 import dk.fitfit.mykoinapplication.db.model.Exercise
+import dk.fitfit.mykoinapplication.repository.ExerciseRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-class ExerciseViewModel(application: Application, private val repository: ExerciseRepository) : AndroidViewModel(application) {
+class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
+    val exercises: LiveData<List<Exercise>> = repository.findAll()
+
     fun upsert(exercise: Exercise) {
         viewModelScope.launch(IO) {
             repository.upsert(exercise)
@@ -20,6 +22,4 @@ class ExerciseViewModel(application: Application, private val repository: Exerci
             repository.update()
         }
     }
-
-    fun findAll() = repository.findAll()
 }
