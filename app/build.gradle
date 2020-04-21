@@ -61,12 +61,10 @@ dependencies {
 
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    // lifecycle components
     def lifecycle_version = '2.2.0'
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
-    // room components
     def room_version = '2.2.5'
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
