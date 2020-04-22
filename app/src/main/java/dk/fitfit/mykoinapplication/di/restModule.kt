@@ -5,6 +5,7 @@ import dk.fitfit.mykoinapplication.BACKEND_BASE_URL
 import dk.fitfit.mykoinapplication.rest.*
 import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 import dk.fitfit.mykoinapplication.rest.service.LoginService
+import dk.fitfit.mykoinapplication.rest.service.WorkoutService
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -22,17 +23,10 @@ val restModule = module {
     factory { provideLocalDateTimeDeserializer() }
     factory { provideGson(get(), get()) }
     single { provideRetrofit(get(), get()) }
-    single { provideLoginService(get()) }
-    single { provideExerciseService(get()) }
+    single { get<Retrofit>().create(LoginService::class.java) }
+    single { get<Retrofit>().create(ExerciseService::class.java) }
+    single { get<Retrofit>().create(WorkoutService::class.java) }
 }
-
-// Inspiration: https://blog.coinbase.com/okhttp-oauth-token-refreshes-b598f55dd3b2
-// And: https://medium.com/@harmittaa/retrofit-2-6-0-with-koin-and-coroutines-4ff45a4792fc
-private fun provideExerciseService(retrofit: Retrofit): ExerciseService =
-        retrofit.create(ExerciseService::class.java)
-
-private fun provideLoginService(retrofit: Retrofit): LoginService =
-        retrofit.create(LoginService::class.java)
 
 private fun provideRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit = Retrofit.Builder()
         .baseUrl(BACKEND_BASE_URL)
