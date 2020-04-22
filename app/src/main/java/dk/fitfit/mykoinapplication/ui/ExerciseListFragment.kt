@@ -1,9 +1,7 @@
 package dk.fitfit.mykoinapplication.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,12 +11,8 @@ import dk.fitfit.mykoinapplication.R
 import kotlinx.android.synthetic.main.fragment_exercise_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ExerciseListFragment : Fragment() {
+class ExerciseListFragment : Fragment(R.layout.fragment_exercise_list) {
     private val exerciseViewModel: ExerciseViewModel by viewModel()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_exercise_list, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
