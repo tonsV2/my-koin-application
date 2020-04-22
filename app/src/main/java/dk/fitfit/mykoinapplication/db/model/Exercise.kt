@@ -9,8 +9,8 @@ import java.time.ZoneOffset
 data class Exercise(
     val name: String,
     val description: String,
-    val updated: Long?,
-    @PrimaryKey(autoGenerate = false) val id: Long = 0
-)
+    override val updated: Long?,
+    @PrimaryKey(autoGenerate = false) override val id: Long
+) : UpdatableEntity(updated, id)
 
 fun LocalDateTime.toEpochMilli() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
