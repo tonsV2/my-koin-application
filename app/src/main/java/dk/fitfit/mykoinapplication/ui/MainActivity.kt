@@ -1,6 +1,5 @@
 package dk.fitfit.mykoinapplication.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import dk.fitfit.mykoinapplication.R
+import dk.fitfit.mykoinapplication.rest.AccessTokenStorage
 import dk.fitfit.mykoinapplication.rest.service.Credentials
 import dk.fitfit.mykoinapplication.rest.service.LoginService
 import dk.fitfit.mykoinapplication.ui.extension.toast
@@ -25,6 +25,7 @@ import retrofit2.HttpException
 
 class MainActivity : AppCompatActivity() {
     private val loginService: LoginService by inject()
+    private val accessTokenStorage: AccessTokenStorage by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,11 +70,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(IO).launch {
             try {
                 val oauthTokens = loginService.login(Credentials("google", token))
-                val settings = applicationContext.getSharedPreferences(TOKEN_STORE, Context.MODE_PRIVATE)
-                settings.edit()
-                    .putString("accessToken", oauthTokens.accessToken)
-                    .putString("refreshToken", oauthTokens.refreshToken)
-                    .apply()
+                accessTokenStorage.store(oauthTokens.accessToken, oauthTokens.refreshToken, oauthTokens.expiresIn)
             } catch (e: HttpException) {
                 e.printStackTrace()
             }
@@ -99,6 +96,5 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val RC_SIGN_IN = 9001
         private const val TAG = "MainActivity"
-        const val TOKEN_STORE = "token-store"
     }
 }
