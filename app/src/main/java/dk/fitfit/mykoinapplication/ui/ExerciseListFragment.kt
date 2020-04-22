@@ -29,9 +29,9 @@ class ExerciseListFragment : Fragment(R.layout.fragment_exercise_list) {
 
         val adapter = ExerciseListAdapter {
             val bundle = bundleOf(
-                    EXTRA_ID to it.id,
-                    EXTRA_NAME to it.name,
-                    EXTRA_DESCRIPTION to it.description
+                EXTRA_ID to it.id,
+                EXTRA_NAME to it.name,
+                EXTRA_DESCRIPTION to it.description
             )
             findNavController().navigate(R.id.action_ExerciseListFragment_to_AddExerciseFragment, bundle)
         }
