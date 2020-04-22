@@ -5,6 +5,7 @@
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="exercise_list_fragment_label">Exercise List Fragment</string>
+    <string name="workout_list_fragment_label">Workouts</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -12,6 +13,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <string name="go_to_exercises">Go to Exercises</string>
+    <string name="go_to_workouts">Go to Workouts</string>
     <string name="add_exercise_fragment_label">Add Exercise</string>
 
     <string name="server_client_id">478137234674-754tovm8mavjbd649e6amt2d7d42tgo8.apps.googleusercontent.com</string>

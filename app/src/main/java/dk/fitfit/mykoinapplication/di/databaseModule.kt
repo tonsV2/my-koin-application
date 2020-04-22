@@ -7,4 +7,5 @@ import org.koin.dsl.module
 val databaseModule = module {
     single { FitLogDatabase.getDatabase(get()) }
     single { get<FitLogDatabase>().exerciseDao() }
+    single { get<FitLogDatabase>().workoutDao() }
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_ExerciseListFragment"
             app:destination="@id/ExerciseListFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_WorkoutListFragment"
+            app:destination="@id/WorkoutListFragment" />
     </fragment>
     <fragment
         android:id="@+id/AddExerciseFragment"
@@ -32,4 +35,9 @@
             android:id="@+id/action_ExerciseListFragment_to_AddExerciseFragment"
             app:destination="@id/AddExerciseFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/WorkoutListFragment"
+        android:name="dk.fitfit.mykoinapplication.ui.WorkoutListFragment"
+        android:label="@string/workout_list_fragment_label"
+        tools:layout="@layout/fragment_workout_list" />
 </navigation>

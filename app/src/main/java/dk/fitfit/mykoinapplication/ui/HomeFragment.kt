@@ -20,5 +20,9 @@ class HomeFragment : Fragment() {
         navigateToExerciseList.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_ExerciseListFragment)
         }
+
+        navigateToWorkoutList.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_WorkoutListFragment)
+        }
     }
 }
