@@ -1,16 +1,21 @@
 package dk.fitfit.mykoinapplication.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import dk.fitfit.mykoinapplication.db.model.Workout
 import dk.fitfit.mykoinapplication.repository.WorkoutRepository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
 class WorkoutViewModel(private val repository: WorkoutRepository) : ViewModel() {
-    fun findAll() = repository.findAll()
+    val workouts: LiveData<List<Workout>> = liveData {
+        emitSource(repository.findAll())
+    }
 
     fun update() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(IO) {
             repository.update()
         }
     }

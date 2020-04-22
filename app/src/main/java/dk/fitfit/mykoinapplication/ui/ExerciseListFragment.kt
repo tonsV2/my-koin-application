@@ -38,7 +38,7 @@ class ExerciseListFragment : Fragment(R.layout.fragment_exercise_list) {
 
         exerciseRecyclerView.adapter = adapter
 
-        exerciseViewModel.findAll().observe(viewLifecycleOwner) {
+        exerciseViewModel.exercises.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }

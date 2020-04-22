@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import dk.fitfit.mykoinapplication.R
 import kotlinx.android.synthetic.main.fragment_workout_list.*
@@ -37,10 +37,9 @@ class WorkoutListFragment : Fragment(R.layout.fragment_workout_list) {
 
         workoutRecyclerView.adapter = adapter
 
-//        workoutViewModel.workouts.observe(viewLifecycleOwner, Observer {
-        workoutViewModel.findAll().observe(viewLifecycleOwner, Observer {
+        workoutViewModel.workouts.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
+        }
     }
 
     companion object {
