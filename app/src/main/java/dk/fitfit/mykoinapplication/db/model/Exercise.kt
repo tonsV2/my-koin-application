@@ -10,7 +10,7 @@ data class Exercise(
     val name: String,
     val description: String,
     override val updated: Long?,
-    @PrimaryKey(autoGenerate = false) override val id: Long
-) : UpdatableEntity(updated, id)
+    @PrimaryKey(autoGenerate = false) val id: Long
+) : UpdatableEntity
 
 fun LocalDateTime.toEpochMilli() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
