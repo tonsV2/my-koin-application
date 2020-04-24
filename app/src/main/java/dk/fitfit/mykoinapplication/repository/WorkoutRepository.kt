@@ -55,7 +55,9 @@ class WorkoutRepository(
         }
     }
 
-    fun findAll(): LiveData<List<Workout>> = workoutDao.findAll()
+    fun getWorkouts(): LiveData<List<Workout>> = workoutDao.findAll()
+
+    fun getWorkoutWithRoundsAndExercises(id: Long) = workoutDao.getWorkoutWithRoundsAndExercises(id)
 }
 
 private fun WorkoutResponse.toWorkout() = Workout(name, description, updated?.toEpochMilli(), id)
