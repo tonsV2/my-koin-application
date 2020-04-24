@@ -39,5 +39,16 @@
         android:id="@+id/WorkoutListFragment"
         android:name="dk.fitfit.mykoinapplication.ui.WorkoutListFragment"
         android:label="@string/workout_list_fragment_label"
-        tools:layout="@layout/fragment_workout_list" />
+        tools:layout="@layout/fragment_workout_list">
+        <action
+            android:id="@+id/action_WorkoutListFragment_to_WorkoutDetailsFragment"
+            app:destination="@id/WorkoutDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/WorkoutDetailsFragment"
+        android:name="dk.fitfit.mykoinapplication.ui.WorkoutDetailsFragment"
+        android:label="@string/workout_details_fragment_label"
+        tools:layout="@layout/fragment_workout_details">
+    </fragment>
+
 </navigation>

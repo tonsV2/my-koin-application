@@ -5,9 +5,9 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dk.fitfit.mykoinapplication.R
-import dk.fitfit.mykoinapplication.ui.extension.toast
 import kotlinx.android.synthetic.main.fragment_workout_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -25,7 +25,7 @@ class WorkoutListFragment : Fragment(R.layout.fragment_workout_list) {
 
         val adapter = WorkoutListAdapter {
             val bundle = bundleOf(EXTRA_ID to it.id)
-//            findNavController().navigate(R.id.action_WorkoutListFragment_to_AddWorkoutFragment, bundle)
+            findNavController().navigate(R.id.action_WorkoutListFragment_to_WorkoutDetailsFragment, bundle)
         }
 
         workoutRecyclerView.adapter = adapter
@@ -33,14 +33,6 @@ class WorkoutListFragment : Fragment(R.layout.fragment_workout_list) {
         workoutViewModel.workouts.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-
-        workoutViewModel.loadWorkout(30)
-        workoutViewModel.workout.observe(viewLifecycleOwner) {
-            val name = it.workout.name
-            activity?.toast(name)
-        }
-        workoutViewModel.loadWorkout(4)
-
     }
 
     companion object {

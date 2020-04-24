@@ -6,6 +6,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="exercise_list_fragment_label">Exercise List Fragment</string>
     <string name="workout_list_fragment_label">Workouts</string>
+    <string name="workout_details_fragment_label">Workout Details</string>
+
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
