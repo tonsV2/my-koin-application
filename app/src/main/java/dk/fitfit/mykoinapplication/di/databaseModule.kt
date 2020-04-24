@@ -8,4 +8,6 @@ val databaseModule = module {
     single { FitLogDatabase.getDatabase(get()) }
     single { get<FitLogDatabase>().exerciseDao() }
     single { get<FitLogDatabase>().workoutDao() }
+    single { get<FitLogDatabase>().roundDao() }
+    single { get<FitLogDatabase>().roundExerciseDao() }
 }

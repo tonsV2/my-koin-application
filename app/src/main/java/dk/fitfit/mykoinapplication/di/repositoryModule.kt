@@ -7,5 +7,5 @@ import org.koin.dsl.module
 @JvmField
 val repositoryModule = module {
     single { ExerciseRepository(get(), get()) }
-    single { WorkoutRepository(get(), get()) }
+    single { WorkoutRepository(get(), get(), get(), get(), get()) }
 }

@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import dk.fitfit.mykoinapplication.db.dao.ExerciseDao
+import dk.fitfit.mykoinapplication.db.dao.RoundDao
+import dk.fitfit.mykoinapplication.db.dao.RoundExerciseDao
 import dk.fitfit.mykoinapplication.db.dao.WorkoutDao
 import dk.fitfit.mykoinapplication.db.model.Exercise
 import dk.fitfit.mykoinapplication.db.model.Round
@@ -15,6 +17,8 @@ import dk.fitfit.mykoinapplication.db.model.Workout
 abstract class FitLogDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
     abstract fun workoutDao(): WorkoutDao
+    abstract fun roundDao(): RoundDao
+    abstract fun roundExerciseDao(): RoundExerciseDao
 
     companion object {
         @Volatile

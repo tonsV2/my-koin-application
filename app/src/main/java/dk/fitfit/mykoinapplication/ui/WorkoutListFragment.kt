@@ -16,22 +16,14 @@ class WorkoutListFragment : Fragment(R.layout.fragment_workout_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Workouts"
-/*
-        fab.setOnClickListener {
-            findNavController().navigate(R.id.action_WorkoutListFragment_to_AddWorkoutFragment)
-        }
-*/
+
         workoutViewModel.update()
 
         workoutRecyclerView.layoutManager = LinearLayoutManager(context)
         workoutRecyclerView.setHasFixedSize(true)
 
         val adapter = WorkoutListAdapter {
-            val bundle = bundleOf(
-                    EXTRA_ID to it.id,
-                    EXTRA_NAME to it.name,
-                    EXTRA_DESCRIPTION to it.description
-            )
+            val bundle = bundleOf(EXTRA_ID to it.id)
 //            findNavController().navigate(R.id.action_WorkoutListFragment_to_AddWorkoutFragment, bundle)
         }
 
@@ -44,7 +36,5 @@ class WorkoutListFragment : Fragment(R.layout.fragment_workout_list) {
 
     companion object {
         const val EXTRA_ID = "workout-id"
-        const val EXTRA_NAME = "workout-name"
-        const val EXTRA_DESCRIPTION = "workout-description"
     }
 }
