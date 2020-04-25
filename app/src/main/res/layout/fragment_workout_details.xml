@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="8dp"
     tools:context=".ui.WorkoutDetailsFragment">
 
     <TextView
         android:id="@+id/workoutName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="@string/workout_name_workout_details_fragment"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,5 +31,13 @@
         android:text="@string/start_workout_workout_details_fragment"
         app:layout_constraintStart_toStartOf="@+id/workoutDescription"
         app:layout_constraintTop_toBottomOf="@+id/workoutDescription" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/roundRecyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startWorkout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
