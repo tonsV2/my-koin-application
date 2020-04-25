@@ -20,7 +20,7 @@ class WorkoutListAdapter(private val onItemClickListener: (Workout) -> Unit) : L
 
     override fun onBindViewHolder(holder: WorkoutHolder, position: Int) {
         val workout = getItem(position)
-        holder.workoutName.text = "${workout.id}:${workout.name}"
+        holder.workoutName.text = workout.name
         holder.workoutDescription.text = workout.description
     }
 

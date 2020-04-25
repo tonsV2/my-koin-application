@@ -20,7 +20,7 @@ class ExerciseListAdapter(private val onItemClickListener: (Exercise) -> Unit) :
 
     override fun onBindViewHolder(holder: ExerciseHolder, position: Int) {
         val exercise = getItem(position)
-        holder.exerciseName.text = "${exercise.id}:${exercise.name}"
+        holder.exerciseName.text = exercise.name
         holder.exerciseDescription.text = exercise.description
     }
 
