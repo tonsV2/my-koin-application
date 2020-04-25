@@ -49,6 +49,15 @@
         android:name="dk.fitfit.mykoinapplication.ui.WorkoutDetailsFragment"
         android:label="@string/workout_details_fragment_label"
         tools:layout="@layout/fragment_workout_details">
+        <action
+            android:id="@+id/action_WorkoutDetailsFragment_to_WorkoutSessionFragment"
+            app:destination="@id/WorkoutSessionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/WorkoutSessionFragment"
+        android:name="dk.fitfit.mykoinapplication.ui.WorkoutSessionFragment"
+        android:label="@string/workout_session_fragment_label"
+        tools:layout="@layout/fragment_workout_session">
     </fragment>
 
 </navigation>

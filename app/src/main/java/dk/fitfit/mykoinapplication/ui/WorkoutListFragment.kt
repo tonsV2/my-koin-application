@@ -8,6 +8,7 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dk.fitfit.mykoinapplication.R
+import dk.fitfit.mykoinapplication.ui.WorkoutDetailsFragment.Companion.EXTRA_ID
 import kotlinx.android.synthetic.main.fragment_workout_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -33,9 +34,5 @@ class WorkoutListFragment : Fragment(R.layout.fragment_workout_list) {
         workoutViewModel.workouts.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-    }
-
-    companion object {
-        const val EXTRA_ID = "workout-id"
     }
 }

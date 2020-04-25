@@ -18,20 +18,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/workoutDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/workout_description_workout_details_fragment"
-        app:layout_constraintStart_toStartOf="@+id/workoutName"
-        app:layout_constraintTop_toBottomOf="@+id/workoutName" />
-
-    <Button
-        android:id="@+id/startWorkout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start_workout_workout_details_fragment"
-        app:layout_constraintStart_toStartOf="@+id/workoutDescription"
-        app:layout_constraintTop_toBottomOf="@+id/workoutDescription" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
