@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:text="Name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/workoutDescription"
@@ -25,8 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:text="Description"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:maxLines="1"
+            android:maxLines="2"
             android:layout_below="@id/workoutName" />
 
     </RelativeLayout>
