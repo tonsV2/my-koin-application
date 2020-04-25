@@ -51,7 +51,9 @@ class WorkoutDetailsFragment : Fragment(R.layout.fragment_workout_details) {
         workoutViewModel.workout.observe(viewLifecycleOwner) {
             workoutName.text = it.workout.name
             workoutDescription.text = it.workout.description
-//            sectionAdapter.removeAllSections()
+
+            sectionAdapter.removeAllSections()
+
             it.rounds.mapIndexed { index, round ->
                 val roundExercises = round.exercises.map { roundExerciseWithExercise ->
                     val roundExercise = roundExerciseWithExercise.roundExercise
