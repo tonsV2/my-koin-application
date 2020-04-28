@@ -48,26 +48,46 @@ class WorkoutDetailsFragment : Fragment(R.layout.fragment_workout_details) {
         roundRecyclerView.layoutManager = LinearLayoutManager(context)
         roundRecyclerView.adapter = sectionAdapter
 
-        workoutViewModel.workout.observe(viewLifecycleOwner) {
-            workoutName.text = it.workout.name
-            workoutDescription.text = it.workout.description
+        workoutViewModel.workout.observe(viewLifecycleOwner) { workoutWithRoundsAndExercises ->
+            workoutName.text = workoutWithRoundsAndExercises.workout.name
+            workoutDescription.text = workoutWithRoundsAndExercises.workout.description
 
             sectionAdapter.removeAllSections()
 
-            it.rounds.mapIndexed { index, round ->
-                val roundExercises = round.exercises.map { roundExerciseWithExercise ->
-                    val roundExercise = roundExerciseWithExercise.roundExercise
-                    val exercise = roundExerciseWithExercise.exercise
-                    roundExercise to exercise
+            // TODO: The data structure initializing should be done in the model not here... It should be done server side actually
+            // Make endpoint called something like workoutSequence
+            val totalRounds = workoutWithRoundsAndExercises.rounds.sumBy { it.round.repetitions }
+
+            if (workoutWithRoundsAndExercises.rounds.size > 1) {
+                var roundNumber = 0
+                workoutWithRoundsAndExercises.rounds.map { round ->
+                    repeat(round.round.repetitions) {
+                        roundNumber += 1
+                        val roundExercises = round.exercises.map { roundExerciseWithExercise ->
+                            val roundExercise = roundExerciseWithExercise.roundExercise
+                            val exercise = roundExerciseWithExercise.exercise
+                            roundExercise to exercise
+                        }
+                        // TOOD: Don't do formatting here
+                        val title = "Round ${roundNumber}/${totalRounds}"
+                        val roundSection = RoundSection(title, roundExercises, sectionParameters)
+                        sectionAdapter.addSection(roundSection)
+                    }
                 }
-                // TODO: Don't do formatting here
-                val title = if (round.round.repetitions > 1) {
-                    "${round.round.repetitions} Rounds"
-                } else {
-                    "Round ${index + 1}/${it.rounds.size}"
+            }
+
+            if (workoutWithRoundsAndExercises.rounds.size == 1) {
+                workoutWithRoundsAndExercises.rounds.map { round ->
+                    val roundExercises = round.exercises.map { roundExerciseWithExercise ->
+                        val roundExercise = roundExerciseWithExercise.roundExercise
+                        val exercise = roundExerciseWithExercise.exercise
+                        roundExercise to exercise
+                    }
+                    // TOOD: Don't do formatting here
+                    val title = "$totalRounds X Round"
+                    val roundSection = RoundSection(title, roundExercises, sectionParameters)
+                    sectionAdapter.addSection(roundSection)
                 }
-                val roundSection = RoundSection(title, roundExercises, sectionParameters)
-                sectionAdapter.addSection(roundSection)
             }
             sectionAdapter.notifyDataSetChanged()
         }
@@ -85,10 +105,9 @@ class RoundSection(private val title: String, private val items: List<Pair<Round
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemViewHolder = holder as ItemViewHolder
-        val first = items[position].first
-        val second = items[position].second
-        val exerciseName = "${first.repetitions} X ${second.name}"
-        println(exerciseName)
+        val round = items[position].first
+        val exercise = items[position].second
+        val exerciseName = "${round.repetitions} X ${exercise.name}"
         itemViewHolder.exerciseName.text = exerciseName
     }
 
