@@ -2,7 +2,10 @@ package dk.fitfit.mykoinapplication.di
 
 import com.google.gson.*
 import dk.fitfit.mykoinapplication.BACKEND_BASE_URL
-import dk.fitfit.mykoinapplication.rest.*
+import dk.fitfit.mykoinapplication.rest.AccessTokenAuthenticator
+import dk.fitfit.mykoinapplication.rest.AccessTokenInterceptor
+import dk.fitfit.mykoinapplication.rest.AccessTokenProvider
+import dk.fitfit.mykoinapplication.rest.AccessTokenStorage
 import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 import dk.fitfit.mykoinapplication.rest.service.LoginService
 import dk.fitfit.mykoinapplication.rest.service.WorkoutService
