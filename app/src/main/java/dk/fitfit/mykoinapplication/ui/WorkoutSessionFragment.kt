@@ -23,7 +23,7 @@ class WorkoutSessionFragment : Fragment(R.layout.fragment_workout_session) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.title = "Workout Session"
+        activity?.title = getString(R.string.workout_session_fragment_label)
 
         arguments?.let {
             val workoutId = it.getLong(EXTRA_WORKOUT_ID)

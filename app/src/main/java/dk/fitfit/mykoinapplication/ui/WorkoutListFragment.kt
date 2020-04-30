@@ -17,7 +17,7 @@ class WorkoutListFragment : Fragment(R.layout.fragment_workout_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = "Workouts"
+        activity?.title = getString(R.string.workout_list_fragment_label)
 
         workoutViewModel.update()
 

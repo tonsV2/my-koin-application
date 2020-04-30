@@ -16,7 +16,7 @@ class ExerciseListFragment : Fragment(R.layout.fragment_exercise_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = "Exercises"
+        activity?.title = getString(R.string.exercise_list_fragment_label)
 
         fab.setOnClickListener {
             findNavController().navigate(R.id.action_ExerciseListFragment_to_AddExerciseFragment)
