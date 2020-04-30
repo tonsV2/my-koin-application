@@ -11,7 +11,6 @@
         android:id="@+id/workoutName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/workout_name_workout_details_fragment"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +19,6 @@
         android:id="@+id/workoutDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/workout_description_workout_details_fragment"
         app:layout_constraintStart_toStartOf="@+id/workoutName"
         app:layout_constraintTop_toBottomOf="@+id/workoutName" />
 
