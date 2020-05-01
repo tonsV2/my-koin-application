@@ -12,5 +12,5 @@ val viewModule = module {
     viewModel { ExerciseViewModel(get()) }
     viewModel { WorkoutViewModel(get()) }
     viewModel { WorkoutDetailsViewModel(get()) }
-    viewModel { WorkoutSessionViewModel() }
+    viewModel { WorkoutSessionViewModel(get()) }
 }

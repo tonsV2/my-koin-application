@@ -9,6 +9,7 @@ import dk.fitfit.mykoinapplication.rest.AccessTokenStorage
 import dk.fitfit.mykoinapplication.rest.service.ExerciseService
 import dk.fitfit.mykoinapplication.rest.service.LoginService
 import dk.fitfit.mykoinapplication.rest.service.WorkoutService
+import dk.fitfit.mykoinapplication.rest.service.WorkoutSessionService
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -29,6 +30,7 @@ val restModule = module {
     single { get<Retrofit>().create(LoginService::class.java) }
     single { get<Retrofit>().create(ExerciseService::class.java) }
     single { get<Retrofit>().create(WorkoutService::class.java) }
+    single { get<Retrofit>().create(WorkoutSessionService::class.java) }
 }
 
 private fun provideRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit = Retrofit.Builder()

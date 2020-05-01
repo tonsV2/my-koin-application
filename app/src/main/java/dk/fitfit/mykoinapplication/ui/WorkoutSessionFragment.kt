@@ -8,12 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.observe
+import androidx.lifecycle.viewModelScope
+import dk.fitfit.fitlog.dto.SessionExerciseRequest
+import dk.fitfit.fitlog.dto.SessionRequest
+import dk.fitfit.fitlog.dto.SessionRoundRequest
 import dk.fitfit.mykoinapplication.R
 import dk.fitfit.mykoinapplication.db.model.Exercise
+import dk.fitfit.mykoinapplication.db.model.Round
 import dk.fitfit.mykoinapplication.db.model.RoundExercise
 import dk.fitfit.mykoinapplication.db.model.WorkoutWithRoundsAndExercises
+import dk.fitfit.mykoinapplication.rest.service.WorkoutSessionService
 import dk.fitfit.mykoinapplication.ui.extension.toast
 import kotlinx.android.synthetic.main.fragment_workout_session.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 
@@ -73,18 +81,19 @@ interface SessionEvent {
 // Split into SessionViewModel and SessionSequence
 // ... And extension function for SessionSequence.toSessionResponse
 // ... And maybe an extension function for Workout.toSessionItems(): List<SessionItem> thereby eliminating init {}
-class WorkoutSessionViewModel: ViewModel() {
+class WorkoutSessionViewModel(private val workoutSessionService: WorkoutSessionService): ViewModel() {
     val current: MutableLiveData<SessionEvent> = MutableLiveData()
+    val progressBar: MutableLiveData<Boolean> = MutableLiveData()
     private val events: MutableList<SessionEvent> = mutableListOf()
     private var position: Int = 0
-    val session = Session()
+    lateinit var session: Session
 
     fun loadSession(workout: WorkoutWithRoundsAndExercises) {
-        session.workoutId = workout.workout.id
+        session = Session(workout.workout.id)
         events.add(BeginSessionEvent(session))
         workout.rounds.forEach { round ->
             repeat(round.round.repetitions) {
-                val sessionRound = SessionRound(round.round.id)
+                val sessionRound = SessionRound(round.round)
                 session.sessionRounds.add(sessionRound)
                 events.add(BeginRoundEvent(sessionRound))
                 round.exercises.forEach { roundExerciseWithExercise ->
@@ -94,6 +103,9 @@ class WorkoutSessionViewModel: ViewModel() {
                     events.add(EndExerciseEvent(sessionExercise))
                 }
                 events.add(EndRoundEvent(sessionRound))
+//                if (round.round.rest > 0) {
+//                    events.add(RoundRestEvent(round.round))
+//                }
             }
         }
         events.add(EndSessionEvent(session))
@@ -104,7 +116,7 @@ class WorkoutSessionViewModel: ViewModel() {
     fun next() {
         Log.d("Events", events.size.toString())
         Log.d("Position", position.toString())
-        if (position > events.size)
+        if (position >= events.size)
             return
         val event = events[position]
         event.execute()
@@ -113,17 +125,20 @@ class WorkoutSessionViewModel: ViewModel() {
     }
 
     fun submit() {
-        session.let {
-            Log.d("Session:Begin", it.started.toString())
-            it.sessionRounds.forEach {
-                Log.d("Round:Begin", it.started.toString())
+        viewModelScope.launch(IO) {
+            val sessionRequest = session.toSessionRequest()
+            Log.d("sessionRequest", sessionRequest.toString())
+            val sessionId = workoutSessionService.save(sessionRequest).id
+            session.sessionRounds.forEach {
+                val sessionRoundRequest = it.toSessionRoundRequest(sessionId)
+                Log.d("sessionRoundRequest", sessionRoundRequest.toString())
+                val sessionRoundId = workoutSessionService.save(sessionRoundRequest).id
                 it.sessionExercises.forEach {
-                    Log.d("Exercise:Begin", it.started.toString())
-                    Log.d("Exercise:End", it.ended.toString())
+                    val sessionExerciseRequest = it.toSessionExerciseRequest(sessionRoundId)
+                    Log.d("sessionExerciseRequest", sessionExerciseRequest.toString())
+                    workoutSessionService.save(sessionExerciseRequest)
                 }
-                Log.d("Round:End", it.ended.toString())
             }
-            Log.d("Session:End", it.ended.toString())
         }
     }
 }
@@ -140,8 +155,7 @@ class EndSessionEvent(private val session: Session) : SessionEvent {
     }
 }
 
-class Session {
-    var workoutId: Long? = null
+data class Session(val workoutId: Long) {
     var started: LocalDateTime? = null
     var ended: LocalDateTime? = null
     val sessionRounds = mutableListOf<SessionRound>()
@@ -155,6 +169,8 @@ class Session {
     }
 }
 
+fun Session.toSessionRequest() = SessionRequest(workoutId, started ?: LocalDateTime.MIN, ended, 0)
+
 class BeginRoundEvent(private val round: SessionRound) : SessionEvent {
     override fun execute() {
         round.beingRound()
@@ -167,7 +183,7 @@ class EndRoundEvent(private val round: SessionRound) : SessionEvent {
     }
 }
 
-class SessionRound(val roundId: Long) {
+data class SessionRound(val round: Round) {
     var started: LocalDateTime? = null
     var ended: LocalDateTime? = null
     val sessionExercises = mutableListOf<SessionExercise>()
@@ -181,6 +197,8 @@ class SessionRound(val roundId: Long) {
     }
 }
 
+fun SessionRound.toSessionRoundRequest(sessionId: Long) = SessionRoundRequest(sessionId, round.id, started ?: LocalDateTime.MIN, ended, 0)
+
 class BeginExerciseEvent(val roundExercise: RoundExercise, val exercise: SessionExercise) : SessionEvent {
     override fun execute() {
         exercise.beingExercise()
@@ -193,7 +211,7 @@ class EndExerciseEvent(val exercise: SessionExercise) : SessionEvent {
     }
 }
 
-class SessionExercise(val exercise: Exercise) {
+data class SessionExercise(val exercise: Exercise) {
     var started: LocalDateTime? = null
     var ended: LocalDateTime? = null
 
@@ -205,3 +223,5 @@ class SessionExercise(val exercise: Exercise) {
         ended = LocalDateTime.now()
     }
 }
+
+fun SessionExercise.toSessionExerciseRequest(sessionRoundId: Long) = SessionExerciseRequest(sessionRoundId, exercise.id, started ?: LocalDateTime.MIN, ended, 0)
