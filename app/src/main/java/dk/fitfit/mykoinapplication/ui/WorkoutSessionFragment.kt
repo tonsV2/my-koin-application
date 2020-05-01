@@ -18,7 +18,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 
 class WorkoutSessionFragment : Fragment(R.layout.fragment_workout_session) {
-    private val workoutViewModel: WorkoutViewModel by viewModel()
+    private val workoutDetailsViewModel: WorkoutDetailsViewModel by viewModel()
+    private val workoutSessionViewModel: WorkoutSessionViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,52 +28,36 @@ class WorkoutSessionFragment : Fragment(R.layout.fragment_workout_session) {
 
         arguments?.let {
             val workoutId = it.getLong(EXTRA_WORKOUT_ID)
-            workoutViewModel.loadWorkout(workoutId)
+            workoutDetailsViewModel.loadWorkout(workoutId)
         }
 
-        var sessionSequence: SessionSequence? = null
-        workoutViewModel.workout.observe(viewLifecycleOwner) {
+        workoutDetailsViewModel.workout.observe(viewLifecycleOwner) {
             workoutName.text = it.workout.name
-            sessionSequence = SessionSequence(it)
-            sessionSequence?.current?.observe(viewLifecycleOwner) {
+
+            workoutSessionViewModel.loadSession(it)
+            workoutSessionViewModel.current.observe(viewLifecycleOwner) {
                 if (it is EndSessionEvent) {
                     next.isEnabled = false
-                    submit.isEnabled = true
                     submit.visibility = VISIBLE
                     activity?.toast("You won!!!")
                     activity?.toast("Congratulations!!!")
                 }
                 if (it is BeginExerciseEvent) {
-                    Log.d("TAG", it.event())
                     exerciseName.text = "${it.roundExercise.repetitions} X ${it.exercise.exercise.name}"
                 } else {
                     if (!(it is EndSessionEvent)) {
-                        Log.d("TAG", it.event())
-                        sessionSequence?.next()
+                        workoutSessionViewModel.next()
                     }
                 }
             }
         }
 
         next.setOnClickListener {
-            sessionSequence?.next()
+            workoutSessionViewModel.next()
         }
 
         submit.setOnClickListener {
-            // Submit session, sessionRounds, sessionExercises
-            activity?.toast("submit")
-            sessionSequence?.session.let {
-                Log.d("Session:Begin", it?.started.toString())
-                sessionSequence?.sessionRounds?.forEach {
-                    Log.d("Round:Begin", it.started.toString())
-                    sessionSequence?.sessionExercises?.forEach {
-                        Log.d("Exercise:Begin", it.started.toString())
-                        Log.d("Exercise:End", it.ended.toString())
-                    }
-                    Log.d("Round:End", it.ended.toString())
-                }
-                Log.d("Session:End", it?.ended.toString())
-            }
+            workoutSessionViewModel.submit()
         }
     }
 
@@ -83,71 +68,83 @@ class WorkoutSessionFragment : Fragment(R.layout.fragment_workout_session) {
 
 interface SessionEvent {
     fun execute()
-    fun event(): String
 }
 
 // Split into SessionViewModel and SessionSequence
 // ... And extension function for SessionSequence.toSessionResponse
 // ... And maybe an extension function for Workout.toSessionItems(): List<SessionItem> thereby eliminating init {}
-class SessionSequence(private val workout: WorkoutWithRoundsAndExercises): ViewModel() {
+class WorkoutSessionViewModel: ViewModel() {
     val current: MutableLiveData<SessionEvent> = MutableLiveData()
-    private var position: Int = 0
     private val events: MutableList<SessionEvent> = mutableListOf()
+    private var position: Int = 0
+    val session = Session()
 
-    val session = Session(workout.workout.id)
-    val sessionRounds = mutableListOf<SessionRound>()
-    val sessionExercises = mutableListOf<SessionExercise>()
-
-    init {
+    fun loadSession(workout: WorkoutWithRoundsAndExercises) {
+        session.workoutId = workout.workout.id
         events.add(BeginSessionEvent(session))
         workout.rounds.forEach { round ->
-            val sessionRound = SessionRound(round.round.id)
-            sessionRounds.add(sessionRound)
-            events.add(BeginRoundEvent(sessionRound))
-            round.exercises.forEach { exercise ->
-                val sessionExercise = SessionExercise(exercise.exercise)
-                sessionExercises.add(sessionExercise)
-                events.add(BeginExerciseEvent(exercise.roundExercise, sessionExercise))
-                events.add(EndExerciseEvent(sessionExercise))
+            repeat(round.round.repetitions) {
+                val sessionRound = SessionRound(round.round.id)
+                session.sessionRounds.add(sessionRound)
+                events.add(BeginRoundEvent(sessionRound))
+                round.exercises.forEach { roundExerciseWithExercise ->
+                    val sessionExercise = SessionExercise(roundExerciseWithExercise.exercise)
+                    sessionRound.sessionExercises.add(sessionExercise)
+                    events.add(BeginExerciseEvent(roundExerciseWithExercise.roundExercise, sessionExercise))
+                    events.add(EndExerciseEvent(sessionExercise))
+                }
+                events.add(EndRoundEvent(sessionRound))
             }
-            events.add(EndRoundEvent(sessionRound))
         }
         events.add(EndSessionEvent(session))
+
         current.postValue(events[0])
     }
 
-
     fun next() {
-        position += 1
+        Log.d("Events", events.size.toString())
+        Log.d("Position", position.toString())
+        if (position > events.size)
+            return
         val event = events[position]
         event.execute()
         current.postValue(event)
-        Log.d("TAG", events.size.toString())
-        Log.d("TAG", position.toString())
+        position += 1
     }
 
-//    fun toSessionResponse() = ...
+    fun submit() {
+        session.let {
+            Log.d("Session:Begin", it.started.toString())
+            it.sessionRounds.forEach {
+                Log.d("Round:Begin", it.started.toString())
+                it.sessionExercises.forEach {
+                    Log.d("Exercise:Begin", it.started.toString())
+                    Log.d("Exercise:End", it.ended.toString())
+                }
+                Log.d("Round:End", it.ended.toString())
+            }
+            Log.d("Session:End", it.ended.toString())
+        }
+    }
 }
 
 class BeginSessionEvent(private val session: Session) : SessionEvent {
     override fun execute() {
         session.beingSession()
     }
-
-    override fun event(): String = "BeginSessionEvent"
 }
 
 class EndSessionEvent(private val session: Session) : SessionEvent {
     override fun execute() {
         session.endSession()
     }
-
-    override fun event(): String = "EndSessionEvent"
 }
 
-class Session(val workoutId: Long) {
+class Session {
+    var workoutId: Long? = null
     var started: LocalDateTime? = null
     var ended: LocalDateTime? = null
+    val sessionRounds = mutableListOf<SessionRound>()
 
     fun beingSession() {
         started = LocalDateTime.now()
@@ -162,21 +159,18 @@ class BeginRoundEvent(private val round: SessionRound) : SessionEvent {
     override fun execute() {
         round.beingRound()
     }
-
-    override fun event(): String = "BeginRoundEvent"
 }
 
 class EndRoundEvent(private val round: SessionRound) : SessionEvent {
     override fun execute() {
         round.endRound()
     }
-
-    override fun event(): String = "EndRoundEvent"
 }
 
 class SessionRound(val roundId: Long) {
     var started: LocalDateTime? = null
     var ended: LocalDateTime? = null
+    val sessionExercises = mutableListOf<SessionExercise>()
 
     fun beingRound() {
         started = LocalDateTime.now()
@@ -191,16 +185,12 @@ class BeginExerciseEvent(val roundExercise: RoundExercise, val exercise: Session
     override fun execute() {
         exercise.beingExercise()
     }
-
-    override fun event(): String = "BeginExerciseEvent"
 }
 
 class EndExerciseEvent(val exercise: SessionExercise) : SessionEvent {
     override fun execute() {
         exercise.endExercise()
     }
-
-    override fun event(): String = "EndExerciseEvent"
 }
 
 class SessionExercise(val exercise: Exercise) {

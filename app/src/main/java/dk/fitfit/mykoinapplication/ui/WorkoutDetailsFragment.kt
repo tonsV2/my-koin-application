@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.round_header.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class WorkoutDetailsFragment : Fragment(R.layout.fragment_workout_details) {
-    private val workoutViewModel: WorkoutViewModel by viewModel()
+    private val workoutDetailsViewModel: WorkoutDetailsViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,11 +30,11 @@ class WorkoutDetailsFragment : Fragment(R.layout.fragment_workout_details) {
 
         arguments?.let {
             val workoutId = it.getLong(EXTRA_ID)
-            workoutViewModel.loadWorkout(workoutId)
+            workoutDetailsViewModel.loadWorkout(workoutId)
         }
 
         startWorkout.setOnClickListener {
-            val workoutId = workoutViewModel.workout.value?.workout?.id
+            val workoutId = workoutDetailsViewModel.workout.value?.workout?.id
             val bundle = bundleOf(WorkoutSessionFragment.EXTRA_WORKOUT_ID to workoutId)
             findNavController().navigate(R.id.action_WorkoutDetailsFragment_to_WorkoutSessionFragment, bundle)
         }
@@ -48,7 +48,7 @@ class WorkoutDetailsFragment : Fragment(R.layout.fragment_workout_details) {
         roundRecyclerView.layoutManager = LinearLayoutManager(context)
         roundRecyclerView.adapter = sectionAdapter
 
-        workoutViewModel.workout.observe(viewLifecycleOwner) { workoutWithRoundsAndExercises ->
+        workoutDetailsViewModel.workout.observe(viewLifecycleOwner) { workoutWithRoundsAndExercises ->
             workoutName.text = workoutWithRoundsAndExercises.workout.name
             workoutDescription.text = workoutWithRoundsAndExercises.workout.description
 
