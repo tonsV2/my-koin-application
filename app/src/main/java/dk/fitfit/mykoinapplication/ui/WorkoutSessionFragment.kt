@@ -3,6 +3,7 @@ package dk.fitfit.mykoinapplication.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -57,6 +58,13 @@ class WorkoutSessionFragment : Fragment(R.layout.fragment_workout_session) {
                         workoutSessionViewModel.next()
                     }
                 }
+            }
+        }
+
+        workoutSessionViewModel.progressBar.observe(viewLifecycleOwner) {
+            when(it) {
+                true -> progressBar.visibility = VISIBLE
+                false -> progressBar.visibility = GONE
             }
         }
 
@@ -126,6 +134,7 @@ class WorkoutSessionViewModel(private val workoutSessionService: WorkoutSessionS
 
     fun submit() {
         viewModelScope.launch(IO) {
+            progressBar.postValue(true)
             val sessionRequest = session.toSessionRequest()
             Log.d("sessionRequest", sessionRequest.toString())
             val sessionId = workoutSessionService.save(sessionRequest).id
@@ -139,6 +148,7 @@ class WorkoutSessionViewModel(private val workoutSessionService: WorkoutSessionS
                     workoutSessionService.save(sessionExerciseRequest)
                 }
             }
+            progressBar.postValue(false)
         }
     }
 }
